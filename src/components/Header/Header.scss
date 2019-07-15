@@ -1,0 +1,133 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  background: $color__white;
+  width: 100%;
+  font-family: 'Work Sans';
+}
+
+.header-bottom {
+  width: 80%;
+  margin: auto;
+}
+
+.header-bottom-wrapper {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-bottom-brand a {
+  text-decoration: none;
+  color: $color__darkgrey;
+}
+.header-bottom-brand a .regular {
+  font-size: 1.5rem;
+  opacity: 0.8;
+}
+.header-bottom-brand a .highlighted {
+  font-weight: bold;
+  font-size: 1.6rem;
+  opacity: 1;
+  color: $color__black;
+}
+
+.header-bottom-nav__items {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header-bottom-nav__item {
+  padding: 0 0.7rem;
+}
+
+.header-bottom-nav__item a {
+  text-decoration: none;
+  color: $color__darkgrey;
+}
+.header-bottom-nav__item a:hover,
+.header-bottom-nav__item a:active,
+.header-bottom-nav__item .active {
+  color: $color__black;
+}
+
+.toggle-button {
+  display: none;
+  width: 3rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding-top: 0;
+  padding-bottom: 0;
+  vertical-align: middle;
+}
+
+.toggle-button:focus {
+  outline: none;
+}
+
+.toggle-button__bar {
+  width: 100%;
+  height: 0.2rem;
+  background: $color__darkgrey;
+  display: block;
+  margin: 0.6rem 0;
+}
+
+/* Mobile navbar */
+
+.mobile-nav {
+  width: 100%;
+  position: absolute;
+  right: 0;
+  background: $color__darkgrey;
+  padding: 1rem 0;
+  z-index: 10;
+  transition: transform 0.3s ease-out;
+}
+.mobile-nav-close {
+  transform: translateY(-70vh);
+}
+.mobile-nav-open {
+  transform: translateY(0);
+}
+.mobile-nav__items {
+  list-style: none;
+  margin: 0 0.5rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.mobile-nav__item {
+  width: 100%;
+}
+.mobile-nav__item a {
+  display: block;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: $color__white;
+}
+.mobile-nav__item a:hover {
+  background: white;
+  color: $color__lightblack;
+}
+
+.mobile-nav__item a:active {
+  color: $color__foggyblue;
+}
+
+@media (max-width: 50rem) {
+  .header-top,
+  .header-bottom-nav {
+    display: none;
+  }
+  .toggle-button {
+    display: block;
+  }
+}

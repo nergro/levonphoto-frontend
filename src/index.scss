@@ -1,0 +1,14 @@
+/* GLOBAL */
+@import './styles/variables/all';
+
+/* COMPONENTS */
+@import './components/index.scss';
+
+/* FONTS */
+@import url('https://fonts.googleapis.com/css?family=Work+Sans&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background: $color__bg;
+}
