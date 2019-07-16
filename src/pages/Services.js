@@ -5,11 +5,11 @@ import Footer from '../components/Footer/Footer';
 
 const services = () => {
   return (
-    <div>
+    <React.Fragment>
       <Header />
       <Services coverUrl='https://levonphoto.lt/img/portfolio/10.jpg' />
-      <Footer />
-    </div>
+      <Footer forceBottom={true} />
+    </React.Fragment>
   );
 };
 

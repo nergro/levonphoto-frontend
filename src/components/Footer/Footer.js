@@ -1,8 +1,17 @@
 import React from 'react';
 
-const footer = () => {
+const footer = props => {
+  const styles = props.forceBottom
+    ? {
+        position: 'absolute',
+        bottom: '0',
+        width: '100%',
+        boxSizing: 'border-box',
+        height: '8.5rem'
+      }
+    : null;
   return (
-    <div className='footer'>
+    <div className='footer' style={styles}>
       <div className='footer-socials'>
         <a href='##'>
           <svg
