@@ -86,14 +86,14 @@
   right: 0;
   background: $color__darkgrey;
   padding: 1rem 0;
-  z-index: 10;
-  transition: transform 0.3s ease-out;
-}
-.mobile-nav-close {
-  transform: translateY(-70vh);
+  z-index: 1;
+  transition: opacity 200ms ease-out, transform 300ms ease-out;
+  transform: translateY(-3rem);
+  opacity: 0;
 }
 .mobile-nav-open {
   transform: translateY(0);
+  opacity: 1;
 }
 .mobile-nav__items {
   list-style: none;
