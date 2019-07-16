@@ -42,7 +42,7 @@
 }
 
 .header-bottom-nav__item {
-  padding: 0 0.7rem;
+  padding: 0.5rem 0.7rem;
 }
 
 .header-bottom-nav__item a {
@@ -86,7 +86,7 @@
   right: 0;
   background: $color__darkgrey;
   padding: 1rem 0;
-  z-index: 1;
+  z-index: -1;
   transition: opacity 200ms ease-out, transform 300ms ease-out;
   transform: translateY(-3rem);
   opacity: 0;
@@ -94,6 +94,7 @@
 .mobile-nav-open {
   transform: translateY(0);
   opacity: 1;
+  z-index: 1;
 }
 .mobile-nav__items {
   list-style: none;

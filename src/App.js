@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import SimpleReactLightbox from 'simple-react-lightbox';
 import './index.scss';
 import Header from './components/Header/Header';
 import Featured from './components/Featured/Featured';
-import SimpleReactLightbox from 'simple-react-lightbox'; // Import Simple React Lightbox
+import Footer from './components/Footer/Footer';
 
 class App extends Component {
   render() {
@@ -13,7 +14,7 @@ class App extends Component {
 
           <Featured />
 
-          <h1>Hello</h1>
+          <Footer />
         </div>
       </SimpleReactLightbox>
     );

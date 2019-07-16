@@ -35,19 +35,19 @@ class Header extends Component {
             <nav className='header-bottom-nav'>
               <ul className='header-bottom-nav__items'>
                 <li className='header-bottom-nav__item '>
-                  <a className='active' href='##'>
+                  <a className='active' href='##P'>
                     PAGRINDINIS
                   </a>
                 </li>
                 <li className='header-bottom-nav__item'>
-                  <a href='##'>PASLAUGOS</a>
+                  <a href='##PA'>PASLAUGOS</a>
                 </li>
 
                 <li className='header-bottom-nav__item'>
-                  <a href='##'>GALERIJA</a>
+                  <a href='##G'>GALERIJA</a>
                 </li>
                 <li className='header-bottom-nav__item'>
-                  <a href='##'>KONTAKTAI</a>
+                  <a href='##K'>KONTAKTAI</a>
                 </li>
               </ul>
             </nav>
