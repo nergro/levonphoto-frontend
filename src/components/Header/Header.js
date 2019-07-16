@@ -22,7 +22,7 @@ class Header extends Component {
         <div className='header-bottom'>
           <div className='header-bottom-wrapper'>
             <div className='header-bottom-brand'>
-              <a href='##'>
+              <a href='/'>
                 <span className='regular'>LEVON</span>
                 <span className='highlighted'>photo</span>
               </a>
@@ -35,12 +35,12 @@ class Header extends Component {
             <nav className='header-bottom-nav'>
               <ul className='header-bottom-nav__items'>
                 <li className='header-bottom-nav__item '>
-                  <a className='active' href='##P'>
+                  <a className='active' href='/'>
                     PAGRINDINIS
                   </a>
                 </li>
                 <li className='header-bottom-nav__item'>
-                  <a href='##PA'>PASLAUGOS</a>
+                  <a href='/paslaugos'>PASLAUGOS</a>
                 </li>
 
                 <li className='header-bottom-nav__item'>
@@ -55,10 +55,10 @@ class Header extends Component {
           <nav className={mobileNavClasses}>
             <ul className='mobile-nav__items'>
               <li className='mobile-nav__item'>
-                <a href='##'>PAGRINDINIS</a>
+                <a href='/'>PAGRINDINIS</a>
               </li>
               <li className='mobile-nav__item'>
-                <a href='##'>PASLAUGOS</a>
+                <a href='/paslaugos'>PASLAUGOS</a>
               </li>
               <li className='mobile-nav__item'>
                 <a href='##'>GALERIJA</a>

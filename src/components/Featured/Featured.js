@@ -71,7 +71,7 @@ class Featured extends Component {
               className='featured-gallery__image'
               onClick={this.handleImageClick}
             >
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/woodtextures.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/10.jpg' />
             </div>
             <div className='featured-gallery__image'>
               <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/tree.jpg' />

@@ -46,11 +46,6 @@
 .featured-gallery__image:hover svg {
   display: block;
 }
-@media (hover: none) and (pointer: coarse) {
-  .featured-gallery__image:hover svg {
-    display: none;
-  }
-}
 
 @media (max-width: 85rem) {
   .featured-gallery {
@@ -76,6 +71,11 @@
   }
   .featured-head .svg-squares {
     width: 2%;
+  }
+}
+@media (max-width: 65rem) {
+  .featured-gallery__image:hover svg {
+    display: none;
   }
 }
 
