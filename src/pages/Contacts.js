@@ -1,16 +1,16 @@
 import React from 'react';
 import Header from '../components/Header/Header';
-import Services from '../components/Services/Services';
 import Footer from '../components/Footer/Footer';
+import Contacts from '../components/Contacts/Contacts';
 
-const services = () => {
+const contacts = () => {
   return (
     <React.Fragment>
       <Header />
-      <Services coverUrl='https://levonphoto.lt/img/portfolio/10.jpg' />
+      <Contacts />
       <Footer />
     </React.Fragment>
   );
 };
 
-export default services;
+export default contacts;

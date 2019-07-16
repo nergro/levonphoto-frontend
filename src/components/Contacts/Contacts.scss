@@ -1,0 +1,127 @@
+.contacts {
+  font-family: 'Work Sans';
+}
+.contacts-map {
+  filter: grayscale(100%);
+  height: 30vh;
+}
+.contacts-wrapper {
+  margin: 3rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.contacts-info .envelope-svg {
+  width: 5%;
+  margin-bottom: 1rem;
+}
+.contacts-info h1 {
+  font-family: 'Playfair Display';
+}
+
+.contacts-info,
+.contacts-form {
+  width: 50%;
+}
+.message-form {
+  width: 60%;
+}
+.contacts-form {
+  display: flex;
+}
+.contacts-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.form-control {
+  margin-bottom: 0.6rem;
+}
+.form-control-inline {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.form-control-inline__control {
+  width: 45%;
+}
+
+.form-control input,
+.form-control textarea {
+  width: 100%;
+  font: inherit;
+  padding-left: 0.7rem;
+  border: 3px solid #ccc;
+}
+.form-control textarea {
+  padding-top: 0.7rem;
+  resize: none;
+}
+.form-control input {
+  height: 2rem;
+}
+
+.form-control input:focus,
+.form-control textarea:focus {
+  /* outline: none; */
+  outline: 3px solid #181c1e;
+}
+
+.form-button {
+  font-family: 'Work Sans';
+  padding: 1rem 2rem;
+  color: $color__white;
+  font-weight: bold;
+  border: none;
+  background: $color__buttonblack;
+  cursor: pointer;
+}
+
+.form-button:hover,
+.form-button:active {
+  background: #c2ae96;
+}
+
+@media (max-width: 90rem) {
+  .message-form {
+    width: 70%;
+  }
+}
+
+@media (max-width: 72rem) {
+  .form-control-inline {
+    flex-direction: column;
+  }
+  .form-control-inline__control {
+    width: 100%;
+  }
+  .contacts-info .envelope-svg {
+    width: 7%;
+  }
+}
+
+@media (max-width: 50rem) {
+  .contacts-wrapper {
+    flex-direction: column;
+  }
+  .contacts-info {
+    width: 100%;
+  }
+  .contacts-form {
+    width: 100%;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+  .message-form {
+    width: 60%;
+  }
+}
+
+@media (max-width: 30rem) {
+  .message-form {
+    width: 80%;
+  }
+  .contacts-info .envelope-svg {
+    width: 10%;
+  }
+}

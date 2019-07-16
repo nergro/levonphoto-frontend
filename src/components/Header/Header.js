@@ -44,10 +44,10 @@ class Header extends Component {
                 </li>
 
                 <li className='header-bottom-nav__item'>
-                  <a href='##G'>GALERIJA</a>
+                  <a href='/galerija'>GALERIJA</a>
                 </li>
                 <li className='header-bottom-nav__item'>
-                  <a href='##K'>KONTAKTAI</a>
+                  <a href='/kontaktai'>KONTAKTAI</a>
                 </li>
               </ul>
             </nav>
@@ -61,10 +61,10 @@ class Header extends Component {
                 <a href='/paslaugos'>PASLAUGOS</a>
               </li>
               <li className='mobile-nav__item'>
-                <a href='##'>GALERIJA</a>
+                <a href='/galerija'>GALERIJA</a>
               </li>
               <li className='mobile-nav__item'>
-                <a href='##'>KONTAKTAI</a>
+                <a href='/kontaktai'>KONTAKTAI</a>
               </li>
             </ul>
           </nav>
