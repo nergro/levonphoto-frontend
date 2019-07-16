@@ -1,19 +1,16 @@
 import React from 'react';
 import Header from '../components/Header/Header';
-import Featured from '../components/Featured/Featured';
 import Footer from '../components/Footer/Footer';
+import Gallery from '../components/Gallery/Gallery';
 
-const main = () => {
+const gallery = () => {
   return (
     <React.Fragment>
       <Header />
-      <Featured
-        title='Levon Photography'
-        subtitle='Fotografijos paslaugos Mažeikiuose'
-      />
+      <Gallery />
       <Footer />
     </React.Fragment>
   );
 };
 
-export default main;
+export default gallery;

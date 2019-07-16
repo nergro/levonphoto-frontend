@@ -17,8 +17,8 @@ class Featured extends Component {
       <SRLWrapper>
         <div className='featured'>
           <div className='featured-head'>
-            <h1>Levon Photography</h1>
-            <p>Fotografijos paslaugos Mažeikiuose</p>
+            <h1>{this.props.title}</h1>
+            <p>{this.props.subtitle}</p>
             <svg
               className='svg-squares'
               x='0px'
@@ -74,46 +74,46 @@ class Featured extends Component {
               <Image imageUrl='https://levonphoto.lt/img/portfolio/10.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/tree.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/24.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/tree.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/23.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/woodtextures.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/22.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/boat.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/21.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/toadstools.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/20.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/woodtextures.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/19.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/sandy-boots.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/18.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/boat.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/17.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/tree.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/16.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/woodtextures.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/15.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/yellowballoon.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/14.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/tree.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/13.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/sandy-boots.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/12.jpg' />
             </div>
             <div className='featured-gallery__image'>
-              <Image imageUrl='http://writingexercises.co.uk/images2/randomimage/woodtextures.jpg' />
+              <Image imageUrl='https://levonphoto.lt/img/portfolio/11.jpg' />
             </div>
           </div>
         </div>

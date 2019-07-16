@@ -6,6 +6,8 @@ import './index.scss';
 import Main from './pages/Main';
 import Services from './pages/Services';
 import Contacts from './pages/Contacts';
+import Gallery from './pages/Gallery';
+import Album from './pages/Album';
 
 class App extends Component {
   render() {
@@ -15,6 +17,8 @@ class App extends Component {
           <Switch>
             <Route path='/paslaugos' component={Services} />
             <Route path='/kontaktai' component={Contacts} />
+            <Route path='/galerija' exact component={Gallery} />
+            <Route path='/galerija/:id' component={Album} />
             <Route path='/' component={Main} />
           </Switch>
         </div>

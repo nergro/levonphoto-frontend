@@ -1,0 +1,135 @@
+.album {
+  cursor: pointer;
+}
+
+.album h3 {
+  text-align: center;
+  margin-top: 2rem;
+  font-family: 'Work Sans';
+  font-weight: 400;
+}
+
+.album-behind-one,
+.album-behind-two,
+.album-cover {
+  width: 20rem;
+  height: 20rem;
+}
+
+.album-behind-one,
+.album-behind-two {
+  background-size: cover;
+  position: absolute;
+  z-index: -1;
+  border: 10px solid #181c1e;
+  border-radius: 10px;
+  transition: all ease-in 0.8s;
+}
+.album-behind-one {
+  transform: rotate(-4deg);
+}
+.album-behind-two {
+  transform: rotate(4deg);
+}
+.album .album-cover {
+  border: 10px solid #181c1e;
+  border-radius: 10px;
+  transition: all ease-in 0.8s;
+}
+.album:hover .album-behind-one {
+  transform: rotate(-10deg) translate(-40px) scale(1.1);
+}
+.album:hover .album-behind-two {
+  transform: rotate(10deg) translate(40px) scale(1.1);
+}
+.album:hover .album-cover {
+  transform: scale(1.1);
+}
+
+@media (max-width: 92rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 18rem;
+    height: 18rem;
+  }
+}
+@media (max-width: 85rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 15rem;
+    height: 15rem;
+  }
+}
+@media (max-width: 75rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+@media (max-width: 65rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 18rem;
+    height: 18rem;
+  }
+}
+
+@media (max-width: 56rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 15rem;
+    height: 15rem;
+  }
+}
+
+@media (max-width: 49rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+@media (max-width: 42rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 18rem;
+    height: 18rem;
+  }
+}
+
+@media (max-width: 31rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 15rem;
+    height: 15rem;
+  }
+}
+
+@media (max-width: 27rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 12rem;
+    height: 12rem;
+  }
+}
+
+@media (max-width: 23rem) {
+  .album-behind-one,
+  .album-behind-two,
+  .album-cover {
+    width: 10rem;
+    height: 10rem;
+  }
+}

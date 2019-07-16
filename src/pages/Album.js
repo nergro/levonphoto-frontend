@@ -1,19 +1,16 @@
 import React from 'react';
 import Header from '../components/Header/Header';
-import Featured from '../components/Featured/Featured';
 import Footer from '../components/Footer/Footer';
+import Featured from '../components/Featured/Featured';
 
-const main = () => {
+const album = () => {
   return (
     <React.Fragment>
       <Header />
-      <Featured
-        title='Levon Photography'
-        subtitle='Fotografijos paslaugos Mažeikiuose'
-      />
+      <Featured title='Albumo pavadinimas' />
       <Footer />
     </React.Fragment>
   );
 };
 
-export default main;
+export default album;

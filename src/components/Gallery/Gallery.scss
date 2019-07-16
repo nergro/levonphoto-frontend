@@ -1,0 +1,43 @@
+.gallery {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 3rem 0;
+}
+.gallery-title {
+  font-family: 'Playfair Display';
+  font-weight: 400;
+  font-size: 3rem;
+  margin-bottom: 4rem;
+}
+.gallery-albums {
+  display: grid;
+  width: 80%;
+  grid-gap: 8rem;
+  grid-template-columns: auto auto auto;
+  margin: 2rem auto;
+  justify-content: center;
+}
+.gallery-albums a {
+  text-decoration: none;
+  color: $color__black;
+}
+@media (max-width: 75rem) {
+  .gallery-albums {
+    grid-gap: 6rem;
+  }
+}
+
+@media (max-width: 65rem) {
+  .gallery-albums {
+    grid-template-columns: auto auto;
+    grid-gap: 6rem;
+  }
+}
+
+@media (max-width: 42rem) {
+  .gallery-albums {
+    grid-template-columns: auto;
+    grid-gap: 4rem;
+  }
+}
