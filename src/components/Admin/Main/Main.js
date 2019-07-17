@@ -7,16 +7,16 @@ const main = () => {
       <div className='admin-main-nav'>
         <ul className='admin-main-nav__items'>
           <li className='admin-main-nav__item'>
-            <a href='/'>PAGRINDINIS PUSLAPIS</a>
+            <a href='/admin/pagrindinis'>PAGRINDINIS PUSLAPIS</a>
           </li>
           <li className='admin-main-nav__item'>
-            <a href='/'>PASLAUGOS</a>
+            <a href='/admin/paslaugos'>PASLAUGOS</a>
           </li>
           <li className='admin-main-nav__item'>
-            <a href='/'>GALERIJA</a>
+            <a href='/admin/galerija'>GALERIJA</a>
           </li>
           <li className='admin-main-nav__item'>
-            <a href='/'>KONTAKTAI</a>
+            <a href='/admin/kontaktai'>KONTAKTAI</a>
           </li>
         </ul>
       </div>

@@ -8,8 +8,13 @@ import Services from './pages/Services';
 import Contacts from './pages/Contacts';
 import Gallery from './pages/Gallery';
 import Album from './pages/Album';
+
 import AdminMain from './pages/admin/Main';
 import AdminLogin from './pages/admin/Login';
+import AdminHome from './pages/admin/Home';
+import AdminServices from './pages/admin/Services';
+import AdminGallery from './pages/admin/Gallery';
+import AdminContacts from './pages/admin/Contacts';
 
 class App extends Component {
   render() {
@@ -21,6 +26,10 @@ class App extends Component {
             <Route path='/kontaktai' component={Contacts} />
             <Route path='/galerija' exact component={Gallery} />
             <Route path='/galerija/:id' component={Album} />
+            <Route path='/admin/pagrindinis' component={AdminHome} />
+            <Route path='/admin/paslaugos' component={AdminServices} />
+            <Route path='/admin/galerija' component={AdminGallery} />
+            <Route path='/admin/kontaktai' component={AdminContacts} />
             <Route path='/admin' component={AdminMain} />
             <Route path='/login' component={AdminLogin} />
             <Route path='/' component={Main} />
