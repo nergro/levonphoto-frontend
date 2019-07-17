@@ -3,7 +3,7 @@ import './Image.scss';
 
 const image = props => {
   return (
-    <React.Fragment>
+    <div className='image-block'>
       <div className='image-wrapper'>
         <img
           className='image-wrapper__image'
@@ -62,7 +62,7 @@ const image = props => {
         <g />
         <g />
       </svg>
-    </React.Fragment>
+    </div>
   );
 };
 

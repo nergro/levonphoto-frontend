@@ -1,0 +1,20 @@
+.admin-login {
+  margin: 3rem 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+.admin-login h1 {
+  font-family: 'Playfair Display';
+  font-weight: 400;
+  margin-bottom: 3rem;
+}
+.login-form {
+  display: flex;
+  justify-content: center;
+}
+
+.login-form form {
+  width: 50%;
+}
