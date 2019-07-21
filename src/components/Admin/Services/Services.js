@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { generateBase64FromImage } from "../../../util/image";
+import Spinner from "../../UI/Spinner/Spinner";
 
 class Services extends Component {
   state = {
@@ -12,10 +13,15 @@ class Services extends Component {
     thirdTitle: "",
     thirdDescription: "",
     imageUrl: "",
-    imagePreview: null
+    imagePreview: null,
+    loading: false,
+    error: false
   };
 
   componentDidMount() {
+    this.setState({
+      loading: true
+    });
     axios
       .get("/services")
       .then(res => {
@@ -26,11 +32,15 @@ class Services extends Component {
           secondTitle: services.secondTitle,
           secondDescription: services.secondDescription,
           thirdTitle: services.thirdTitle,
-          thirdDescription: services.thirdDescription
+          thirdDescription: services.thirdDescription,
+          loading: false
         });
       })
       .catch(err => {
-        console.log(err);
+        this.setState({
+          loading: false,
+          error: true
+        });
       });
   }
 
@@ -104,7 +114,11 @@ class Services extends Component {
       });
   };
   render() {
-    return (
+    const content = this.state.loading ? (
+      <Spinner />
+    ) : this.state.error ? (
+      <h1 style={{ textAlign: "center" }}>Serverio klaida.</h1>
+    ) : (
       <div className="admin-login services-form">
         <h1>Paslaugos</h1>
         <div className="contacts-form login-form services-form">
@@ -204,6 +218,7 @@ class Services extends Component {
         </div>
       </div>
     );
+    return <React.Fragment>{content}</React.Fragment>;
   }
 }
 
