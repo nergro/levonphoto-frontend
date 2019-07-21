@@ -61,34 +61,9 @@ class Services extends Component {
     }
   };
 
-  handleFirstTitleChange = e => {
+  onInputChange = (input, value) => {
     this.setState({
-      firstTitle: e.target.value
-    });
-  };
-  handleFirstDescriptionChange = e => {
-    this.setState({
-      firstDescription: e.target.value
-    });
-  };
-  handleSecondTitleChange = e => {
-    this.setState({
-      secondTitle: e.target.value
-    });
-  };
-  handleSecondDescriptionChange = e => {
-    this.setState({
-      secondDescription: e.target.value
-    });
-  };
-  handleThirdTitleChange = e => {
-    this.setState({
-      thirdTitle: e.target.value
-    });
-  };
-  handleThirdDescriptionChange = e => {
-    this.setState({
-      thirdDescription: e.target.value
+      [input]: value
     });
   };
 
@@ -106,7 +81,7 @@ class Services extends Component {
     axios
       .post("/services", formData)
       .then(result => {
-        console.log("Services created!");
+        console.log("Services updated!");
         this.props.history.push("/paslaugos");
       })
       .catch(err => {
@@ -153,7 +128,7 @@ class Services extends Component {
                 autoComplete="off"
                 placeholder="Antraštė"
                 value={this.state.firstTitle}
-                onChange={this.handleFirstTitleChange}
+                onChange={e => this.onInputChange("firstTitle", e.target.value)}
               />
             </div>
             <div className="form-control">
@@ -162,7 +137,9 @@ class Services extends Component {
                 name="description-one"
                 placeholder="Aprašymas"
                 value={this.state.firstDescription}
-                onChange={this.handleFirstDescriptionChange}
+                onChange={e =>
+                  this.onInputChange("firstDescription", e.target.value)
+                }
                 rows="4"
               />
             </div>
@@ -175,7 +152,9 @@ class Services extends Component {
                 autoComplete="off"
                 placeholder="Antraštė"
                 value={this.state.secondTitle}
-                onChange={this.handleSecondTitleChange}
+                onChange={e =>
+                  this.onInputChange("secondTitle", e.target.value)
+                }
               />
             </div>
             <div className="form-control">
@@ -184,7 +163,9 @@ class Services extends Component {
                 name="description-two"
                 placeholder="Aprašymas"
                 value={this.state.secondDescription}
-                onChange={this.handleSecondDescriptionChange}
+                onChange={e =>
+                  this.onInputChange("secondDescription", e.target.value)
+                }
                 rows="4"
               />
             </div>
@@ -197,7 +178,7 @@ class Services extends Component {
                 autoComplete="off"
                 placeholder="Antraštė"
                 value={this.state.thirdTitle}
-                onChange={this.handleThirdTitleChange}
+                onChange={e => this.onInputChange("thirdTitle", e.target.value)}
               />
             </div>
             <div className="form-control">
@@ -206,7 +187,9 @@ class Services extends Component {
                 name="description-three"
                 placeholder="Aprašymas"
                 value={this.state.thirdDescription}
-                onChange={this.handleThirdDescriptionChange}
+                onChange={e =>
+                  this.onInputChange("thirdDescription", e.target.value)
+                }
                 rows="4"
               />
             </div>
