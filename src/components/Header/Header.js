@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../../store/actions";
 
 class Header extends Component {
   state = {
@@ -11,6 +13,10 @@ class Header extends Component {
         mobileNavOpen: !this.state.mobileNavOpen
       };
     });
+  };
+
+  logout = () => {
+    this.props.logout();
   };
 
   render() {
@@ -49,9 +55,19 @@ class Header extends Component {
                 <li className="header-bottom-nav__item">
                   <a href="/kontaktai">KONTAKTAI</a>
                 </li>
-                <li className="header-bottom-nav__item">
-                  <a href="/admin">VALDYMAS</a>
-                </li>
+                {this.props.isAuth ? (
+                  <li className="header-bottom-nav__item">
+                    <a href="/admin">VALDYMAS</a>
+                  </li>
+                ) : null}
+
+                {this.props.isAuth ? (
+                  <li className="header-bottom-nav__item">
+                    <a href="/" style={{ color: "red" }} onClick={this.logout}>
+                      ATSIJUNGTI
+                    </a>
+                  </li>
+                ) : null}
               </ul>
             </nav>
           </div>
@@ -80,4 +96,17 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.isAuth
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(actions.handleLogout())
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

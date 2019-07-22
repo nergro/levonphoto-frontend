@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import SimpleReactLightbox from "simple-react-lightbox";
+import { connect } from "react-redux";
+import * as actions from "./store/actions";
+
 import "./index.scss";
 
 import Main from "./pages/Main";
@@ -17,6 +20,18 @@ import AdminGallery from "./pages/admin/Gallery";
 import AdminContacts from "./pages/admin/Contacts";
 
 class App extends Component {
+  componentDidMount() {
+    let isAuth = localStorage.getItem("isAuth");
+    let userId = localStorage.getItem("userId");
+
+    if (!isAuth) {
+      isAuth = false;
+    }
+    if (!userId) {
+      userId = false;
+    }
+    this.props.setAuthStatus(userId);
+  }
   render() {
     return (
       <SimpleReactLightbox>
@@ -40,4 +55,13 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+  return {
+    setAuthStatus: isAuth => dispatch(actions.setAuthStatus(isAuth))
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);

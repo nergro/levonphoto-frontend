@@ -46,7 +46,6 @@ class Featured extends Component {
   };
 
   render() {
-    console.log(this.state.imagesLoading);
     const galleryStyle = {
       opacity: this.state.imagesLoading ? "0" : "1"
     };

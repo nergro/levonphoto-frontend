@@ -1,16 +1,29 @@
-import React from 'react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import Main from '../../components/Admin/Main/Main';
+import React from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
-const main = () => {
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import Main from "../../components/Admin/Main/Main";
+
+const main = props => {
+  const userId = localStorage.getItem("userId");
+
   return (
     <React.Fragment>
       <Header />
       <Main />
       <Footer />
+      {props.checked && userId !== props.userId ? <Redirect to="/" /> : null}
     </React.Fragment>
   );
 };
 
-export default main;
+const mapStateToProps = state => {
+  return {
+    userId: state.auth.userId,
+    checked: state.auth.checked
+  };
+};
+
+export default connect(mapStateToProps)(main);

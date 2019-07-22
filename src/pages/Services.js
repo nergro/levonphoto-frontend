@@ -31,6 +31,7 @@ class Services extends Component {
       });
   }
   render() {
+    // console.log(this.props.isAuth);
     return (
       <React.Fragment>
         <Header />
