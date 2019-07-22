@@ -47,7 +47,6 @@ class gallery extends Component {
                   beforeOneUrl={"http://localhost:8080/" + album.firstHidden}
                   beforeTwoUrl={"http://localhost:8080/" + album.secondHidden}
                   albumTitle={album.title}
-                  albumId={album._id}
                 />
               </a>
             );

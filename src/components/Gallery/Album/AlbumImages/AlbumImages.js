@@ -3,26 +3,31 @@ import axios from "axios";
 import { SRLWrapper } from "simple-react-lightbox";
 import { withRouter } from "react-router-dom";
 
-import Image from "../Image/Image";
-import Spinner from "../UI/Spinner/Spinner";
+import Spinner from "../../../UI/Spinner/Spinner";
+import Image from "../../../Image/Image";
 
 class Featured extends Component {
   state = {
     images: [],
     loading: false,
-    error: false
+    error: false,
+    title: "",
+    albumId: ""
   };
 
   componentDidMount() {
+    const { albumId } = this.props.match.params;
     this.setState({
-      loading: true
+      loading: true,
+      albumId: albumId
     });
     axios
-      .get("/home")
+      .get("/album/" + albumId)
       .then(res => {
         this.setState({
           images: res.data.images,
-          loading: false
+          loading: false,
+          title: res.data.title
         });
       })
       .catch(err => {
@@ -43,8 +48,7 @@ class Featured extends Component {
     ) : (
       <div className="featured">
         <div className="featured-head">
-          <h1>{this.props.title}</h1>
-          <p>{this.props.subtitle}</p>
+          <h1>{this.state.title}</h1>
           <svg
             className="svg-squares"
             x="0px"
