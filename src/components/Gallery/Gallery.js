@@ -1,71 +1,62 @@
-import React, { Component } from 'react';
-import Album from './Album/Album';
+import React, { Component } from "react";
+import axios from "axios";
+import Album from "./Album/Album";
+import Spinner from "../UI/Spinner/Spinner";
 
 class gallery extends Component {
+  state = {
+    albums: null,
+    loading: false,
+    error: false
+  };
+  componentDidMount() {
+    this.setState({
+      loading: true
+    });
+    axios
+      .get("/albums")
+      .then(res => {
+        this.setState({
+          albums: res.data.albums,
+          loading: false
+        });
+      })
+      .catch(err => {
+        this.setState({
+          loading: false,
+          error: true
+        });
+      });
+  }
   render() {
-    return (
-      <div className='gallery'>
-        <h1 className='gallery-title'>Galerija</h1>
-        <div className='gallery-albums'>
-          <a href='/galerija/1'>
-            <Album
-              coverUrl='https://levonphoto.lt/img/portfolio/22.jpg'
-              beforeOneUrl='https://levonphoto.lt/img/portfolio/21.jpg'
-              beforeTwoUrl='https://levonphoto.lt/img/portfolio/20.jpg'
-              albumTitle='Pirmas albumas'
-            />
-          </a>
-          <a href='/galerija/2'>
-            <Album
-              coverUrl='https://levonphoto.lt/img/portfolio/10.jpg'
-              beforeOneUrl='https://levonphoto.lt/img/portfolio/11.jpg'
-              beforeTwoUrl='https://levonphoto.lt/img/portfolio/13.jpg'
-              albumTitle='Antras albumas'
-            />
-          </a>
-          <a href='/galerija/3'>
-            <Album
-              coverUrl='https://levonphoto.lt/img/portfolio/8.jpg'
-              beforeOneUrl='https://levonphoto.lt/img/portfolio/15.jpg'
-              beforeTwoUrl='https://levonphoto.lt/img/portfolio/7.jpg'
-              albumTitle='Trecias albumas'
-            />
-          </a>
-          <a href='/galerija/4'>
-            <Album
-              coverUrl='https://levonphoto.lt/img/portfolio/19.jpg'
-              beforeOneUrl='https://levonphoto.lt/img/portfolio/9.jpg'
-              beforeTwoUrl='https://levonphoto.lt/img/portfolio/10.jpg'
-              albumTitle='Ketvirtas albumas'
-            />
-          </a>
-          <a href='/galerija/5'>
-            <Album
-              coverUrl='https://levonphoto.lt/img/portfolio/14.jpg'
-              beforeOneUrl='https://levonphoto.lt/img/portfolio/9.jpg'
-              beforeTwoUrl='https://levonphoto.lt/img/portfolio/17.jpg'
-              albumTitle='Penktas albumas'
-            />
-          </a>
-          <a href='/galerija/6'>
-            <Album
-              coverUrl='https://levonphoto.lt/img/portfolio/17.jpg'
-              beforeOneUrl='https://levonphoto.lt/img/portfolio/10.jpg'
-              beforeTwoUrl='https://levonphoto.lt/img/portfolio/14.jpg'
-              albumTitle='Sestas albumas'
-            />
-          </a>
-          <a href='/galerija/7'>
-            <Album
-              coverUrl='https://levonphoto.lt/img/portfolio/15.jpg'
-              beforeOneUrl='https://levonphoto.lt/img/portfolio/14.jpg'
-              beforeTwoUrl='https://levonphoto.lt/img/portfolio/11.jpg'
-              albumTitle='Septintas albumas'
-            />
-          </a>
+    const content = this.state.loading ? (
+      <Spinner />
+    ) : this.state.error ? (
+      <h1 style={{ textAlign: "center" }}>
+        Serverio klaida. Atsiprašome už nepatogumus.
+      </h1>
+    ) : this.state.albums ? (
+      <div className="gallery">
+        <h1 className="gallery-title">Galerija</h1>
+        <div className="gallery-albums">
+          {this.state.albums.map(album => {
+            return (
+              <a href={"/galerija/" + album._id} key={album._id}>
+                <Album
+                  coverUrl={"http://localhost:8080/" + album.albumCover}
+                  beforeOneUrl={"http://localhost:8080/" + album.firstHidden}
+                  beforeTwoUrl={"http://localhost:8080/" + album.secondHidden}
+                  albumTitle={album.title}
+                  albumId={album._id}
+                />
+              </a>
+            );
+          })}
         </div>
       </div>
-    );
+    ) : null;
+
+    return <React.Fragment>{content}</React.Fragment>;
   }
 }
 

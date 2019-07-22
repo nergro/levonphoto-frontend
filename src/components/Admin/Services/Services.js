@@ -108,7 +108,7 @@ class Services extends Component {
                 }
               />
             </div>
-            <div className="new-post__preview-image">
+            <div>
               {this.state.imagePreview && (
                 <div
                   style={{
