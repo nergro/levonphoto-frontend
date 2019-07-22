@@ -46,12 +46,13 @@ class Featured extends Component {
   };
 
   render() {
+    console.log(this.state.imagesLoading);
     const galleryStyle = {
       opacity: this.state.imagesLoading ? "0" : "1"
     };
     const spinnerStyle = {
       position: "absolute",
-      top: "35%",
+      top: "25rem",
       left: "48.5%"
     };
     const content = this.state.loading ? (

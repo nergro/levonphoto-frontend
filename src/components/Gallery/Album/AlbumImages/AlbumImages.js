@@ -56,7 +56,7 @@ class Featured extends Component {
     };
     const spinnerStyle = {
       position: "absolute",
-      top: "35%",
+      top: "25rem",
       left: "48.5%"
     };
     const content = this.state.loading ? (
