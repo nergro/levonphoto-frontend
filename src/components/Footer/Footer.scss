@@ -4,10 +4,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
 }
 
 .footer-copy p {
-  font-family: 'Work Sans';
+  font-family: "Work Sans";
   margin: 0;
 }
 

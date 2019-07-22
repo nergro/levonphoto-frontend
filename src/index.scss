@@ -1,15 +1,21 @@
 /* GLOBAL */
-@import './styles/variables/all';
+@import "./styles/variables/all";
 
 /* COMPONENTS */
-@import './components/index.scss';
+@import "./components/index.scss";
 
 /* FONTS */
-@import url('https://fonts.googleapis.com/css?family=Work+Sans&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Playfair+Display&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Playfair+Display&display=swap");
 
+html,
 body {
+  min-height: 100vh;
+}
+body {
+  height: 100%;
   margin: 0;
   padding: 0;
   background: $color__bg;
+  position: relative;
 }
