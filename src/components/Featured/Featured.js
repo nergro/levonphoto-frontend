@@ -10,7 +10,8 @@ class Featured extends Component {
   state = {
     images: [],
     loading: false,
-    error: false
+    error: false,
+    imagesLoading: false
   };
 
   componentDidMount() {
@@ -28,12 +29,31 @@ class Featured extends Component {
       .catch(err => {
         this.setState({
           error: true,
-          laoding: false
+          loading: false
         });
       });
   }
 
+  imagesLoading = () => {
+    this.setState({
+      imagesLoading: true
+    });
+  };
+  imagesLoaded = () => {
+    this.setState({
+      imagesLoading: false
+    });
+  };
+
   render() {
+    const galleryStyle = {
+      opacity: this.state.imagesLoading ? "0" : "1"
+    };
+    const spinnerStyle = {
+      position: "absolute",
+      top: "35%",
+      left: "48.5%"
+    };
     const content = this.state.loading ? (
       <Spinner />
     ) : this.state.error ? (
@@ -92,15 +112,20 @@ class Featured extends Component {
             <g />
           </svg>
         </div>
-        <div className="featured-gallery">
+        <div className="featured-gallery" style={galleryStyle}>
           {this.state.images.map(image => {
             return (
               <div className="featured-gallery__image" key={image._id}>
-                <Image imageUrl={"http://localhost:8080/" + image.imageUrl} />
+                <Image
+                  imageUrl={"http://localhost:8080/" + image.imageUrl}
+                  imagesLoading={this.imagesLoading}
+                  imagesLoaded={this.imagesLoaded}
+                />
               </div>
             );
           })}
         </div>
+        {this.state.imagesLoading ? <Spinner style={spinnerStyle} /> : null}
       </div>
     );
     return <SRLWrapper>{content}</SRLWrapper>;
