@@ -81,19 +81,21 @@ class Gallery extends Component {
         <div className="contacts-form login-form">
           <form className="message-form" onSubmit={this.handleSubmit}>
             <div className="form-control">
+              <label htmlFor="title">Albumo pavadinimas</label>
               <input
                 type="text"
-                name="image"
+                name="title"
                 autoComplete="off"
                 placeholder="Albumo pavadinimas"
                 onChange={this.onTitleChange}
                 spellCheck="false"
                 value={this.state.title}
+                style={{ marginTop: "0.5rem" }}
               />
             </div>
             <hr />
             <div className="form-control">
-              <label htmlFor="album-photos">Pridėti nuotraukų į albumą</label>
+              <label htmlFor="image">Pridėti nuotraukų į albumą</label>
               <input
                 type="file"
                 multiple

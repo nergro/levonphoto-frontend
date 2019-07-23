@@ -127,9 +127,11 @@ class Featured extends Component {
             <g />
             <g />
           </svg>
-          <button className="form-button add-button" onClick={this.albumEdit}>
-            ALBUMO REDAGAVIMAS
-          </button>
+          {this.props.isAuth ? (
+            <button className="form-button add-button" onClick={this.albumEdit}>
+              ALBUMO REDAGAVIMAS
+            </button>
+          ) : null}
         </div>
         <div className="featured-gallery" style={galleryStyle}>
           {this.state.images.map(image => {
