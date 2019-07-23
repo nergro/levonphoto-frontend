@@ -97,6 +97,7 @@ const contacts = props => {
                   name="name"
                   autoComplete="off"
                   placeholder="Vardas"
+                  spellCheck="false"
                 />
               </div>
               <div className="form-control form-control-inline__control">
@@ -105,6 +106,7 @@ const contacts = props => {
                   name="email"
                   autoComplete="off"
                   placeholder="Jūsų el. paštas"
+                  spellCheck="false"
                 />
               </div>
             </div>
@@ -114,10 +116,16 @@ const contacts = props => {
                 name="subject"
                 autoComplete="off"
                 placeholder="Tema"
+                spellCheck="false"
               />
             </div>
             <div className="form-control">
-              <textarea name="message" rows="10" placeholder="Žinutė" />
+              <textarea
+                name="message"
+                rows="10"
+                placeholder="Žinutė"
+                spellCheck="false"
+              />
             </div>
             <button type="submit" className="form-button">
               SIŲSTI

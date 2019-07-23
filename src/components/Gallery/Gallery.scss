@@ -5,7 +5,7 @@
   margin: 3rem 0;
 }
 .gallery-title {
-  font-family: 'Playfair Display';
+  font-family: "Playfair Display";
   font-weight: 400;
   font-size: 3rem;
   margin-bottom: 4rem;
@@ -18,7 +18,10 @@
   margin: 2rem auto;
   justify-content: center;
 }
-.gallery-albums a {
+.gallery-album {
+  text-align: center;
+}
+.gallery-album a {
   text-decoration: none;
   color: $color__black;
 }

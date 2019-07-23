@@ -1,7 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import axios from "axios";
 import Album from "./Album/Album";
 import Spinner from "../UI/Spinner/Spinner";
+import TrashIcon from "../../images/svgs/trash-icon";
 
 class gallery extends Component {
   state = {
@@ -39,6 +41,19 @@ class gallery extends Component {
       imagesLoading: false
     });
   };
+
+  handleAlbumRemoval = albumId => {
+    if (window.confirm("Ar tikrai norite ištrinti?")) {
+      axios
+        .delete("/album/" + albumId)
+        .then(res => {
+          window.location.reload();
+        })
+        .catch(err => {
+          alert("Ištrinti nepavyko");
+        });
+    }
+  };
   render() {
     const albumStyle = {
       opacity: this.state.imagesLoading ? "0" : "1"
@@ -59,16 +74,23 @@ class gallery extends Component {
         <div className="gallery-albums" style={albumStyle}>
           {this.state.albums.map(album => {
             return (
-              <a href={"/galerija/" + album._id} key={album._id}>
-                <Album
-                  coverUrl={"http://localhost:8080/" + album.albumCover}
-                  beforeOneUrl={"http://localhost:8080/" + album.firstHidden}
-                  beforeTwoUrl={"http://localhost:8080/" + album.secondHidden}
-                  albumTitle={album.title}
-                  imagesLoading={this.imagesLoading}
-                  imagesLoaded={this.imagesLoaded}
-                />
-              </a>
+              <div className="gallery-album" key={album._id}>
+                <a href={"/galerija/" + album._id}>
+                  <Album
+                    coverUrl={"http://localhost:8080/" + album.albumCover}
+                    beforeOneUrl={"http://localhost:8080/" + album.firstHidden}
+                    beforeTwoUrl={"http://localhost:8080/" + album.secondHidden}
+                    albumTitle={album.title}
+                    imagesLoading={this.imagesLoading}
+                    imagesLoaded={this.imagesLoaded}
+                  />
+                </a>
+                {this.props.isAuth ? (
+                  <TrashIcon
+                    clicked={() => this.handleAlbumRemoval(album._id)}
+                  />
+                ) : null}
+              </div>
             );
           })}
         </div>
@@ -80,4 +102,10 @@ class gallery extends Component {
   }
 }
 
-export default gallery;
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.isAuth
+  };
+};
+
+export default connect(mapStateToProps)(gallery);

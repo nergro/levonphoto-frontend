@@ -71,6 +71,7 @@ class Gallery extends Component {
                 autoComplete="off"
                 placeholder="Albumo pavadinimas"
                 onChange={this.onTitleChange}
+                spellCheck="false"
               />
             </div>
             <div className="form-control">
@@ -81,6 +82,7 @@ class Gallery extends Component {
                 onChange={e =>
                   this.onFilePickChange("albumCover", e.target.files)
                 }
+                required
               />
             </div>
             <div className="form-control">
@@ -91,6 +93,7 @@ class Gallery extends Component {
                 onChange={e =>
                   this.onFilePickChange("firstHidden", e.target.files)
                 }
+                required
               />
             </div>
             <div className="form-control">
@@ -101,6 +104,7 @@ class Gallery extends Component {
                 onChange={e =>
                   this.onFilePickChange("secondHidden", e.target.files)
                 }
+                required
               />
             </div>
             <hr />
@@ -113,6 +117,7 @@ class Gallery extends Component {
                 onChange={e =>
                   this.onMultiFilePickChange("images", e.target.files)
                 }
+                required
               />
             </div>
 

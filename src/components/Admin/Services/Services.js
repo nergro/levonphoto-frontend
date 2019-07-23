@@ -127,6 +127,7 @@ class Services extends Component {
                 name="title-one"
                 autoComplete="off"
                 placeholder="Antraštė"
+                spellCheck="false"
                 value={this.state.firstTitle}
                 onChange={e => this.onInputChange("firstTitle", e.target.value)}
               />
@@ -136,6 +137,7 @@ class Services extends Component {
                 type="text"
                 name="description-one"
                 placeholder="Aprašymas"
+                spellCheck="false"
                 value={this.state.firstDescription}
                 onChange={e =>
                   this.onInputChange("firstDescription", e.target.value)
@@ -151,6 +153,7 @@ class Services extends Component {
                 name="title-two"
                 autoComplete="off"
                 placeholder="Antraštė"
+                spellCheck="false"
                 value={this.state.secondTitle}
                 onChange={e =>
                   this.onInputChange("secondTitle", e.target.value)
@@ -162,6 +165,7 @@ class Services extends Component {
                 type="text"
                 name="description-two"
                 placeholder="Aprašymas"
+                spellCheck="false"
                 value={this.state.secondDescription}
                 onChange={e =>
                   this.onInputChange("secondDescription", e.target.value)
@@ -177,6 +181,7 @@ class Services extends Component {
                 name="title-three"
                 autoComplete="off"
                 placeholder="Antraštė"
+                spellCheck="false"
                 value={this.state.thirdTitle}
                 onChange={e => this.onInputChange("thirdTitle", e.target.value)}
               />
@@ -186,6 +191,7 @@ class Services extends Component {
                 type="text"
                 name="description-three"
                 placeholder="Aprašymas"
+                spellCheck="false"
                 value={this.state.thirdDescription}
                 onChange={e =>
                   this.onInputChange("thirdDescription", e.target.value)

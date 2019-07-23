@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import { SRLWrapper } from "simple-react-lightbox";
 import { withRouter } from "react-router-dom";
 
 import Image from "../Image/Image";
 import Spinner from "../UI/Spinner/Spinner";
+import TrashIcon from "../../images/svgs/trash-icon";
 
 class Featured extends Component {
   state = {
@@ -43,6 +45,19 @@ class Featured extends Component {
     this.setState({
       imagesLoading: false
     });
+  };
+
+  handleImageRemoval = imageId => {
+    if (window.confirm("Ar tikrai norite ištrinti?")) {
+      axios
+        .delete("/image/" + imageId)
+        .then(res => {
+          window.location.reload();
+        })
+        .catch(err => {
+          alert("Ištrinti nepavyko");
+        });
+    }
   };
 
   render() {
@@ -115,12 +130,19 @@ class Featured extends Component {
         <div className="featured-gallery" style={galleryStyle}>
           {this.state.images.map(image => {
             return (
-              <div className="featured-gallery__image" key={image._id}>
-                <Image
-                  imageUrl={"http://localhost:8080/" + image.imageUrl}
-                  imagesLoading={this.imagesLoading}
-                  imagesLoaded={this.imagesLoaded}
-                />
+              <div className="featured-gallery__image-wrapper" key={image._id}>
+                <div className="featured-gallery__image">
+                  <Image
+                    imageUrl={"http://localhost:8080/" + image.imageUrl}
+                    imagesLoading={this.imagesLoading}
+                    imagesLoaded={this.imagesLoaded}
+                  />
+                </div>
+                {this.props.isAuth ? (
+                  <TrashIcon
+                    clicked={() => this.handleImageRemoval(image._id)}
+                  />
+                ) : null}
               </div>
             );
           })}
@@ -132,4 +154,10 @@ class Featured extends Component {
   }
 }
 
-export default withRouter(Featured);
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.isAuth
+  };
+};
+
+export default connect(mapStateToProps)(withRouter(Featured));

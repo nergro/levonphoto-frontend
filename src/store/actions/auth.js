@@ -15,10 +15,11 @@ export const loginSuccess = (isAuth, userId) => {
   };
 };
 
-export const loginFail = isAuth => {
+export const loginFail = (isAuth, message) => {
   return {
     type: actionTypes.LOGIN_FAIL,
-    isAuth: false
+    isAuth: false,
+    message: message
   };
 };
 
@@ -47,7 +48,11 @@ export const login = formData => {
         localStorage.setItem("userId", res.data["userId"]);
       })
       .catch(error => {
-        dispatch(loginFail(false));
+        if (error.response) {
+          dispatch(loginFail(false, error.response.data.message));
+        } else {
+          dispatch(loginFail(false, "Serverio klaida. Pabandykite vėliau."));
+        }
       });
   };
 };

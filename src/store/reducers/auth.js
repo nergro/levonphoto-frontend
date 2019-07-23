@@ -5,7 +5,8 @@ const initialState = {
   loading: false,
   error: false,
   userId: "",
-  checked: false
+  checked: false,
+  message: ""
 };
 
 const reducer = (state = initialState, action) => {
@@ -27,7 +28,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: false,
         isAuth: action.isAuth,
-        error: true
+        error: true,
+        message: action.message
       };
     case actionTypes.SET_AUTH_STATUS:
       return {

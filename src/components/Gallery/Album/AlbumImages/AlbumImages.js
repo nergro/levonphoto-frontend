@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import { SRLWrapper } from "simple-react-lightbox";
 import { withRouter } from "react-router-dom";
 
 import Spinner from "../../../UI/Spinner/Spinner";
 import Image from "../../../Image/Image";
+import TrashIcon from "../../../../images/svgs/trash-icon";
 
 class Featured extends Component {
   state = {
@@ -50,6 +52,11 @@ class Featured extends Component {
     });
   };
 
+  albumEdit = () => {
+    const albumId = this.props.match.params.albumId;
+    this.props.history.push("/galerija/" + albumId + "/edit");
+  };
+
   render() {
     const galleryStyle = {
       opacity: this.state.imagesLoading ? "0" : "1"
@@ -59,6 +66,11 @@ class Featured extends Component {
       top: "25rem",
       left: "48.5%"
     };
+    const albumHeadStyle = {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center"
+    };
     const content = this.state.loading ? (
       <Spinner />
     ) : this.state.error ? (
@@ -67,7 +79,7 @@ class Featured extends Component {
       </h1>
     ) : (
       <div className="featured">
-        <div className="featured-head">
+        <div className="featured-head" style={albumHeadStyle}>
           <h1>{this.state.title}</h1>
           <svg
             className="svg-squares"
@@ -115,16 +127,26 @@ class Featured extends Component {
             <g />
             <g />
           </svg>
+          <button className="form-button add-button" onClick={this.albumEdit}>
+            ALBUMO REDAGAVIMAS
+          </button>
         </div>
         <div className="featured-gallery" style={galleryStyle}>
           {this.state.images.map(image => {
             return (
-              <div className="featured-gallery__image" key={image._id}>
-                <Image
-                  imageUrl={"http://localhost:8080/" + image.imageUrl}
-                  imagesLoading={this.imagesLoading}
-                  imagesLoaded={this.imagesLoaded}
-                />
+              <div className="featured-gallery__image-wrapper" key={image._id}>
+                <div className="featured-gallery__image">
+                  <Image
+                    imageUrl={"http://localhost:8080/" + image.imageUrl}
+                    imagesLoading={this.imagesLoading}
+                    imagesLoaded={this.imagesLoaded}
+                  />
+                </div>
+                {this.props.isAuth ? (
+                  <TrashIcon
+                    clicked={() => this.handleImageRemoval(image._id)}
+                  />
+                ) : null}
               </div>
             );
           })}
@@ -135,5 +157,10 @@ class Featured extends Component {
     return <SRLWrapper>{content}</SRLWrapper>;
   }
 }
+const mapStateToProps = state => {
+  return {
+    isAuth: state.auth.isAuth
+  };
+};
 
-export default withRouter(Featured);
+export default connect(mapStateToProps)(withRouter(Featured));

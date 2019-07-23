@@ -5,7 +5,7 @@
 .album h3 {
   text-align: center;
   margin-top: 2rem;
-  font-family: 'Work Sans';
+  font-family: "Work Sans";
   font-weight: 400;
 }
 
@@ -44,6 +44,12 @@
 }
 .album:hover .album-cover {
   transform: scale(1.1);
+}
+.add-button {
+  background: #017915;
+}
+.add-button:hover {
+  background: #195519;
 }
 
 @media (max-width: 92rem) {

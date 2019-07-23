@@ -18,6 +18,7 @@ import AdminHome from "./pages/admin/Home";
 import AdminServices from "./pages/admin/Services";
 import AdminGallery from "./pages/admin/Gallery";
 import AdminContacts from "./pages/admin/Contacts";
+import AdminSingleAlbum from "./pages/admin/SingleAlbum";
 
 class App extends Component {
   componentDidMount() {
@@ -40,6 +41,11 @@ class App extends Component {
             <Route path="/paslaugos" component={Services} />
             <Route path="/kontaktai" component={Contacts} />
             <Route path="/galerija" exact component={Gallery} />
+
+            <Route
+              path="/galerija/:albumId/edit"
+              component={AdminSingleAlbum}
+            />
             <Route path="/galerija/:albumId" component={Album} />
             <Route path="/admin/pagrindinis" component={AdminHome} />
             <Route path="/admin/paslaugos" component={AdminServices} />

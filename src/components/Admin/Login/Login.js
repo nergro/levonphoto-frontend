@@ -30,6 +30,9 @@ class Login extends Component {
     ) : (
       <div className="admin-login">
         <h1>Prisijungti</h1>
+        {this.props.message.length > 0 ? (
+          <p style={{ color: "red" }}>{this.props.message}</p>
+        ) : null}
         <div className="contacts-form login-form">
           <form className="message-form" onSubmit={this.handleLogin}>
             <div className="form-control">
@@ -38,6 +41,7 @@ class Login extends Component {
                 name="name"
                 placeholder="Prisijungimo vardas"
                 onChange={e => this.onInputChange("name", e.target.value)}
+                required
               />
             </div>
             <div className="form-control">
@@ -46,6 +50,7 @@ class Login extends Component {
                 name="password"
                 placeholder="Slaptažodis"
                 onChange={e => this.onInputChange("password", e.target.value)}
+                required
               />
             </div>
 
@@ -64,7 +69,8 @@ const mapStateToProps = state => {
   return {
     isAuth: state.auth.isAuth,
     loading: state.auth.loading,
-    error: state.auth.error
+    error: state.auth.error,
+    message: state.auth.message
   };
 };
 const mapDispatchToProps = dispatch => {

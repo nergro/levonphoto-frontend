@@ -71,6 +71,7 @@ class Contacts extends Component {
                 name="phone"
                 autoComplete="off"
                 placeholder="Telefono numeris"
+                spellCheck="false"
                 value={this.state.phone}
                 onChange={e => this.onInputChange("phone", e.target.value)}
               />
@@ -80,6 +81,7 @@ class Contacts extends Component {
                 type="email"
                 name="email"
                 placeholder="El. paštas"
+                spellCheck="false"
                 value={this.state.email}
                 onChange={e => this.onInputChange("email", e.target.value)}
               />
