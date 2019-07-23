@@ -68,6 +68,9 @@ class Services extends Component {
   };
 
   handleSubmit = e => {
+    this.setState({
+      loading: true
+    });
     e.preventDefault();
     const formData = new FormData();
     formData.append("image", this.state.imageUrl);
@@ -81,10 +84,16 @@ class Services extends Component {
     axios
       .post("/services", formData)
       .then(result => {
-        console.log("Services updated!");
+        this.setState({
+          loading: false
+        });
         this.props.history.push("/paslaugos");
+        console.log("Services updated!");
       })
       .catch(err => {
+        this.setState({
+          loading: false
+        });
         console.log(err.message);
       });
   };

@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+import Spinner from "../../../components/UI/Spinner/Spinner";
 
 class Home extends Component {
   state = {
-    images: []
+    images: [],
+    loading: false
   };
 
   onMultiFilePickChange = (value, files) => {
@@ -16,6 +18,9 @@ class Home extends Component {
   };
 
   handleSubmit = e => {
+    this.setState({
+      loading: true
+    });
     e.preventDefault();
     const formData = new FormData();
 
@@ -30,6 +35,9 @@ class Home extends Component {
       })
       .then(res => {
         console.log("Home images created!");
+        this.setState({
+          loading: false
+        });
         this.props.history.push("/");
       })
       .catch(err => {
@@ -50,7 +58,9 @@ class Home extends Component {
     }
   };
   render() {
-    return (
+    const content = this.state.loading ? (
+      <Spinner />
+    ) : (
       <div className="admin-login">
         <h1>Pagrindinis puslapis</h1>
         <button
@@ -81,6 +91,7 @@ class Home extends Component {
         </div>
       </div>
     );
+    return <React.Fragment>{content}</React.Fragment>;
   }
 }
 

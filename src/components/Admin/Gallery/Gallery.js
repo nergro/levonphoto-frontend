@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+import Spinner from "../../UI/Spinner/Spinner";
 
 class Gallery extends Component {
   state = {
@@ -8,7 +9,8 @@ class Gallery extends Component {
     albumCover: "",
     firstHidden: "",
     secondHidden: "",
-    images: []
+    images: [],
+    loading: false
   };
 
   onFilePickChange = (value, files) => {
@@ -34,6 +36,9 @@ class Gallery extends Component {
   };
 
   handleSubmit = e => {
+    this.setState({
+      loading: true
+    });
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", this.state.title);
@@ -52,14 +57,22 @@ class Gallery extends Component {
       })
       .then(result => {
         console.log("Album created!");
+        this.setState({
+          loading: false
+        });
         this.props.history.push("/galerija");
       })
       .catch(err => {
         console.log(err.message);
+        this.setState({
+          loading: false
+        });
       });
   };
   render() {
-    return (
+    const content = this.state.loading ? (
+      <Spinner />
+    ) : (
       <div className="admin-login">
         <h1>Albumo sukūrimas</h1>
         <div className="contacts-form login-form">
@@ -128,6 +141,7 @@ class Gallery extends Component {
         </div>
       </div>
     );
+    return <React.Fragment>{content}</React.Fragment>;
   }
 }
 

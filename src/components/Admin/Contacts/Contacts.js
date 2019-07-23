@@ -39,6 +39,9 @@ class Contacts extends Component {
   };
 
   postContacts = e => {
+    this.setState({
+      loding: true
+    });
     e.preventDefault();
     const formData = new FormData();
     formData.append("phone", this.state.phone);
@@ -48,10 +51,16 @@ class Contacts extends Component {
       .post("/contacts", formData)
       .then(result => {
         console.log("Contacts updated!");
+        this.setState({
+          loding: false
+        });
         this.props.history.push("/kontaktai");
       })
       .catch(err => {
         console.log(err.message);
+        this.setState({
+          loding: false
+        });
       });
   };
 
