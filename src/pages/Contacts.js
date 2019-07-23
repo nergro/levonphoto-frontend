@@ -9,8 +9,16 @@ class Contacts extends Component {
   state = {
     loading: false,
     error: false,
+    contactsEmail: "",
+    contactsPhone: "",
+
+    name: "",
     email: "",
-    phone: ""
+    subject: "",
+    message: "",
+    emailSending: false,
+    emailSendError: false,
+    emailSent: false
   };
   componentDidMount() {
     this.setState({
@@ -21,8 +29,8 @@ class Contacts extends Component {
       .then(res => {
         this.setState({
           loading: false,
-          phone: res.data.contacts[0].phone,
-          email: res.data.contacts[0].email
+          contactsPhone: res.data.contacts[0].phone,
+          contactsEmail: res.data.contacts[0].email
         });
       })
       .catch(err => {
@@ -32,6 +40,40 @@ class Contacts extends Component {
         });
       });
   }
+
+  onInputChange = (input, value) => {
+    this.setState({
+      [input]: value
+    });
+  };
+
+  handleEmailSend = () => {
+    this.setState({
+      emailSending: true
+    });
+    const formData = new FormData();
+    formData.append("name", this.state.name);
+    formData.append("email", this.state.email);
+    formData.append("subject", this.state.subject);
+    formData.append("message", this.state.message);
+
+    axios
+      .post("/sendemail", formData)
+      .then(res => {
+        this.setState({
+          emailSending: false,
+          emailSent: true
+        });
+      })
+      .catch(err => {
+        this.setState({
+          emailSending: false,
+          emailSendError: true,
+          emailSent: false
+        });
+      });
+  };
+
   render() {
     return (
       <React.Fragment>
@@ -39,8 +81,13 @@ class Contacts extends Component {
         <ContactsData
           loading={this.state.loading}
           error={this.state.error}
-          email={this.state.email}
-          phone={this.state.phone}
+          email={this.state.contactsEmail}
+          phone={this.state.contactsPhone}
+          onChange={this.onInputChange}
+          onSubmit={this.handleEmailSend}
+          emailSending={this.state.emailSending}
+          emailError={this.state.emailSendError}
+          emailSent={this.state.emailSent}
         />
         <Footer />
       </React.Fragment>

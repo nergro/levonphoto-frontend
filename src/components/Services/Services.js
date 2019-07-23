@@ -3,7 +3,7 @@ import Spinner from "../UI/Spinner/Spinner";
 
 const services = props => {
   let imageUrl = props.services
-    ? "http://localhost:8080/" + props.services.imageUrl
+    ? "https://levon.herokuapp.com/" + props.services.imageUrl
     : "";
   const content = props.loading ? (
     <Spinner />

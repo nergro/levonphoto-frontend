@@ -133,7 +133,7 @@ class Featured extends Component {
               <div className="featured-gallery__image-wrapper" key={image._id}>
                 <div className="featured-gallery__image">
                   <Image
-                    imageUrl={"http://localhost:8080/" + image.imageUrl}
+                    imageUrl={"https://levon.herokuapp.com/" + image.imageUrl}
                     imagesLoading={this.imagesLoading}
                     imagesLoaded={this.imagesLoaded}
                   />

@@ -2,6 +2,13 @@ import React from "react";
 import Spinner from "../UI/Spinner/Spinner";
 
 const contacts = props => {
+  const formStyle =
+    props.emailSent || props.emailError
+      ? {
+          justifyContent: "center",
+          alignItems: "center"
+        }
+      : null;
   const content = props.loading ? (
     <Spinner />
   ) : props.error ? (
@@ -88,49 +95,69 @@ const contacts = props => {
             {props.email}
           </p>
         </div>
-        <div className="contacts-form">
-          <form className="message-form">
-            <div className="form-control-inline">
-              <div className="form-control form-control-inline__control">
+        <div className="contacts-form" style={formStyle}>
+          {props.emailSending ? (
+            <Spinner />
+          ) : props.emailError ? (
+            <div className="email-sent email-failed">
+              <h3>Žinutės išsiųsti nepavyko</h3>
+            </div>
+          ) : props.emailSent ? (
+            <div className="email-sent">
+              <h3>Žinutė išsiųsta</h3>
+            </div>
+          ) : (
+            <form className="message-form" onSubmit={props.onSubmit}>
+              <div className="form-control-inline">
+                <div className="form-control form-control-inline__control">
+                  <input
+                    type="text"
+                    name="name"
+                    autoComplete="off"
+                    placeholder="Vardas"
+                    spellCheck="false"
+                    onChange={e => props.onChange("name", e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-control form-control-inline__control">
+                  <input
+                    type="email"
+                    name="email"
+                    autoComplete="off"
+                    placeholder="Jūsų el. paštas"
+                    spellCheck="false"
+                    onChange={e => props.onChange("email", e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="form-control">
                 <input
                   type="text"
-                  name="name"
+                  name="subject"
                   autoComplete="off"
-                  placeholder="Vardas"
+                  placeholder="Tema"
                   spellCheck="false"
+                  onChange={e => props.onChange("subject", e.target.value)}
+                  required
                 />
               </div>
-              <div className="form-control form-control-inline__control">
-                <input
-                  type="email"
-                  name="email"
-                  autoComplete="off"
-                  placeholder="Jūsų el. paštas"
+              <div className="form-control">
+                <textarea
+                  name="message"
+                  rows="10"
+                  placeholder="Žinutė"
                   spellCheck="false"
+                  onChange={e => props.onChange("message", e.target.value)}
+                  required
                 />
               </div>
-            </div>
-            <div className="form-control">
-              <input
-                type="text"
-                name="subject"
-                autoComplete="off"
-                placeholder="Tema"
-                spellCheck="false"
-              />
-            </div>
-            <div className="form-control">
-              <textarea
-                name="message"
-                rows="10"
-                placeholder="Žinutė"
-                spellCheck="false"
-              />
-            </div>
-            <button type="submit" className="form-button">
-              SIŲSTI
-            </button>
-          </form>
+              <button type="submit" className="form-button">
+                SIŲSTI
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>

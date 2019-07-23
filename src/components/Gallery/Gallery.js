@@ -77,9 +77,13 @@ class gallery extends Component {
               <div className="gallery-album" key={album._id}>
                 <a href={"/galerija/" + album._id}>
                   <Album
-                    coverUrl={"http://localhost:8080/" + album.albumCover}
-                    beforeOneUrl={"http://localhost:8080/" + album.firstHidden}
-                    beforeTwoUrl={"http://localhost:8080/" + album.secondHidden}
+                    coverUrl={"https://levon.herokuapp.com/" + album.albumCover}
+                    beforeOneUrl={
+                      "https://levon.herokuapp.com/" + album.firstHidden
+                    }
+                    beforeTwoUrl={
+                      "https://levon.herokuapp.com/" + album.secondHidden
+                    }
                     albumTitle={album.title}
                     imagesLoading={this.imagesLoading}
                     imagesLoaded={this.imagesLoaded}
