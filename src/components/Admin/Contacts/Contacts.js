@@ -8,6 +8,7 @@ class Contacts extends Component {
   state = {
     loading: false,
     error: false,
+    errorMessage: "",
     email: "",
     phone: ""
   };
@@ -43,12 +44,13 @@ class Contacts extends Component {
       loding: true
     });
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("phone", this.state.phone);
-    formData.append("email", this.state.email);
+    const data = {
+      phone: this.state.phone,
+      email: this.state.email
+    };
 
     axios
-      .post("/contacts", formData)
+      .post("/contacts", data)
       .then(result => {
         console.log("Contacts updated!");
         this.setState({
@@ -59,7 +61,9 @@ class Contacts extends Component {
       .catch(err => {
         console.log(err.message);
         this.setState({
-          loding: false
+          loading: false,
+          error: true,
+          errorMessage: "Atnaujinti kontaktų nepavyko"
         });
       });
   };
@@ -72,6 +76,11 @@ class Contacts extends Component {
     ) : (
       <div className="admin-login">
         <h1>Kontaktai</h1>
+        {this.state.error && this.state.errorMessage.length > 1 ? (
+          <div className="validate">
+            <p>{this.state.errorMessage}</p>
+          </div>
+        ) : null}
         <div className="contacts-form login-form">
           <form className="message-form" onSubmit={this.postContacts}>
             <div className="form-control">

@@ -17,10 +17,11 @@ class Login extends Component {
 
   handleLogin = e => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", this.state.name);
-    formData.append("password", this.state.password);
-    this.props.login(formData);
+    const data = {
+      name: this.state.name,
+      password: this.state.password
+    };
+    this.props.login(data);
   };
   render() {
     const content = this.props.loading ? (

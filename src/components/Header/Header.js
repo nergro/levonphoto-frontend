@@ -85,9 +85,19 @@ class Header extends Component {
               <li className="mobile-nav__item">
                 <a href="/kontaktai">KONTAKTAI</a>
               </li>
-              <li className="mobile-nav__item">
-                <a href="/admin">VALDYMAS</a>
-              </li>
+              {this.props.isAuth ? (
+                <li className="mobile-nav__item">
+                  <a href="/admin">VALDYMAS</a>
+                </li>
+              ) : null}
+
+              {this.props.isAuth ? (
+                <li className="mobile-nav__item">
+                  <a href="/" style={{ color: "red" }} onClick={this.logout}>
+                    ATSIJUNGTI
+                  </a>
+                </li>
+              ) : null}
             </ul>
           </nav>
         </div>

@@ -57,6 +57,19 @@ class Featured extends Component {
     this.props.history.push("/galerija/" + albumId + "/edit");
   };
 
+  handleImageRemoval = imageId => {
+    if (window.confirm("Ar tikrai norite ištrinti?")) {
+      axios
+        .delete("/image/" + imageId)
+        .then(res => {
+          window.location.reload();
+        })
+        .catch(err => {
+          alert("Ištrinti nepavyko");
+        });
+    }
+  };
+
   render() {
     const galleryStyle = {
       opacity: this.state.imagesLoading ? "0" : "1"
@@ -139,7 +152,7 @@ class Featured extends Component {
               <div className="featured-gallery__image-wrapper" key={image._id}>
                 <div className="featured-gallery__image">
                   <Image
-                    imageUrl={"https://levon.herokuapp.com/" + image.imageUrl}
+                    imageUrl={image.imageUrl}
                     imagesLoading={this.imagesLoading}
                     imagesLoaded={this.imagesLoaded}
                   />

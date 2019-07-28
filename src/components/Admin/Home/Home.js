@@ -6,7 +6,9 @@ import Spinner from "../../../components/UI/Spinner/Spinner";
 class Home extends Component {
   state = {
     images: [],
-    loading: false
+    loading: false,
+    error: false,
+    errorMessage: ""
   };
 
   onMultiFilePickChange = (value, files) => {
@@ -22,38 +24,74 @@ class Home extends Component {
       loading: true
     });
     e.preventDefault();
-    const formData = new FormData();
+    const imgArr = [...this.state.images];
+    Promise.all(
+      imgArr.map(image => {
+        const formData = new FormData();
+        const uniqueFileName = image.name + "-" + new Date().toISOString();
 
-    for (const image of this.state.images) {
-      formData.append("image", image);
-    }
-    axios
-      .post("/home", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
+        formData.append("file", image);
+        formData.append("tags", "home");
+        formData.append("upload_preset", "pqfkiqsm");
+        formData.append("api_key", "315826331834584");
+        formData.append("timestamp", (Date.now() / 1000) | 0);
+        formData.append("public_id", `home/${uniqueFileName}`);
+        return axios
+          .post(
+            "https://api.cloudinary.com/v1_1/dvrfxqcuv/image/upload",
+            formData,
+            {
+              headers: { "X-Requested-With": "XMLHttpRequest" }
+            }
+          )
+          .then(response => {
+            const dbData = {
+              imageUrl: response.data.secure_url,
+              publicId: response.data.public_id
+            };
+            return dbData;
+          })
+          .catch(err => err);
+      })
+    )
+      .then(res => {
+        const images = { images: res };
+        return axios.post("/home", images);
       })
       .then(res => {
-        console.log("Home images created!");
         this.setState({
           loading: false
         });
         this.props.history.push("/");
       })
       .catch(err => {
-        console.log(err.message);
+        this.setState({
+          loading: false,
+          error: true,
+          errorMessage: "Įkelti nuotraukų nepavyko"
+        });
       });
   };
 
   handleImageRemoval = () => {
+    this.setState({
+      loading: true
+    });
     if (window.confirm("Ar tikrai norite ištrinti?")) {
       axios
         .delete("/home/images")
         .then(res => {
+          this.setState({
+            loading: false
+          });
           this.props.history.push("/");
         })
         .catch(err => {
-          alert("Ištrinti nepavyko");
+          this.setState({
+            loading: false,
+            error: true,
+            errorMessage: "Nepavyko ištrinti nuotraukų"
+          });
         });
     }
   };
@@ -63,6 +101,11 @@ class Home extends Component {
     ) : (
       <div className="admin-login">
         <h1>Pagrindinis puslapis</h1>
+        {this.state.error ? (
+          <div className="validate">
+            <p>{this.state.errorMessage}</p>
+          </div>
+        ) : null}
         <button
           className="form-button delete-button"
           onClick={this.handleImageRemoval}

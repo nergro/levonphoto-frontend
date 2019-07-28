@@ -72,30 +72,71 @@ class Services extends Component {
       loading: true
     });
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", this.state.imageUrl);
-    formData.append("firstTitle", this.state.firstTitle);
-    formData.append("firstDescription", this.state.firstDescription);
-    formData.append("secondTitle", this.state.secondTitle);
-    formData.append("secondDescription", this.state.secondDescription);
-    formData.append("thirdTitle", this.state.thirdTitle);
-    formData.append("thirdDescription", this.state.thirdDescription);
 
-    axios
-      .post("/services", formData)
-      .then(result => {
-        this.setState({
-          loading: false
+    let data = {
+      firstTitle: this.state.firstTitle,
+      firstDescription: this.state.firstDescription,
+      secondTitle: this.state.secondTitle,
+      secondDescription: this.state.secondDescription,
+      thirdTitle: this.state.thirdTitle,
+      thirdDescription: this.state.thirdDescription
+    };
+
+    if (this.state.imageUrl) {
+      const formData = new FormData();
+      const uniqueFileName =
+        this.state.imageUrl.name + "-" + new Date().toISOString();
+
+      formData.append("file", this.state.imageUrl);
+      formData.append("tags", "home");
+      formData.append("upload_preset", "pqfkiqsm");
+      formData.append("api_key", "315826331834584");
+      formData.append("timestamp", (Date.now() / 1000) | 0);
+      formData.append("public_id", `services/${uniqueFileName}`);
+
+      axios
+        .post(
+          "https://api.cloudinary.com/v1_1/dvrfxqcuv/image/upload",
+          formData,
+          {
+            headers: { "X-Requested-With": "XMLHttpRequest" }
+          }
+        )
+        .then(response => {
+          data.imageUrl = response.data.secure_url;
+          data.publicId = response.data.public_id;
+          return axios.post("/services", data);
+        })
+        .then(res => {
+          this.setState({
+            loading: false
+          });
+          this.props.history.push("/paslaugos");
+          console.log("Services updated!");
+        })
+        .catch(err => {
+          this.setState({
+            loading: false
+          });
+          console.log(err.message);
         });
-        this.props.history.push("/paslaugos");
-        console.log("Services updated!");
-      })
-      .catch(err => {
-        this.setState({
-          loading: false
+    } else {
+      axios
+        .post("/services", data)
+        .then(result => {
+          this.setState({
+            loading: false
+          });
+          this.props.history.push("/paslaugos");
+          console.log("Services updated!");
+        })
+        .catch(err => {
+          this.setState({
+            loading: false
+          });
+          console.log(err.message);
         });
-        console.log(err.message);
-      });
+    }
   };
   render() {
     const content = this.state.loading ? (

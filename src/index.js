@@ -11,6 +11,7 @@ import * as serviceWorker from "./serviceWorker";
 import authReducer from "./store/reducers/auth";
 
 axios.defaults.baseURL = "https://levon.herokuapp.com";
+// axios.defaults.baseURL = "http://localhost:8080";
 
 const rootReducer = combineReducers({
   auth: authReducer

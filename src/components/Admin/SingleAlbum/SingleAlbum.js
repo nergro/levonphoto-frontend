@@ -9,7 +9,8 @@ class Gallery extends Component {
     images: [],
     loading: false,
     error: false,
-    albumId: ""
+    albumId: "",
+    errorMessage: ""
   };
 
   componentDidMount() {
@@ -49,27 +50,86 @@ class Gallery extends Component {
   };
 
   handleSubmit = e => {
+    this.setState({
+      loading: true
+    });
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", this.state.title);
-    for (const image of this.state.images) {
-      formData.append("image", image);
-    }
 
-    axios
-      .post("/album/" + this.state.albumId + "/edit", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
-      .then(result => {
-        console.log("Album created!");
-        this.props.history.push("/galerija/" + this.state.albumId);
-      })
-      .catch(err => {
-        console.log(err.message);
-      });
+    const imgArr = [...this.state.images];
+    if (imgArr.length > 0) {
+      Promise.all(
+        imgArr.map(image => {
+          const formData = new FormData();
+          const uniqueFileName = image.name + "-" + new Date().toISOString();
+
+          formData.append("file", image);
+          formData.append("tags", "albums");
+          formData.append("upload_preset", "pqfkiqsm");
+          formData.append("api_key", "315826331834584");
+          formData.append("timestamp", (Date.now() / 1000) | 0);
+          formData.append("public_id", `albums/${uniqueFileName}`);
+          return axios
+            .post(
+              "https://api.cloudinary.com/v1_1/dvrfxqcuv/image/upload",
+              formData,
+              {
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+              }
+            )
+            .then(response => {
+              const dbData = {
+                imageUrl: response.data.secure_url,
+                publicId: response.data.public_id
+              };
+              return dbData;
+            })
+            .catch(err => err);
+        })
+      )
+        .then(res => {
+          const data = {
+            albumId: this.state.albumId,
+            title: this.state.title,
+            images: res
+          };
+          return axios.post("/album/" + this.state.albumId + "/edit", data);
+        })
+        .then(res => {
+          this.setState({
+            loading: false
+          });
+          this.props.history.push("/galerija/" + this.state.albumId);
+        })
+        .catch(err => {
+          this.setState({
+            loading: false,
+            error: true,
+            errorMessage: "Atnaujinti albumo nepavyko"
+          });
+        });
+    } else {
+      const data = {
+        albumId: this.state.albumId,
+        title: this.state.title
+      };
+      axios
+        .post("/album/" + this.state.albumId + "/edit", data)
+        .then(res => {
+          this.setState({
+            loading: false
+          });
+          this.props.history.push("/galerija/" + this.state.albumId);
+        })
+        .catch(err => {
+          this.setState({
+            loading: false,
+            error: true,
+            errorMessage: "Atnaujinti albumo nepavyko"
+          });
+        });
+    }
   };
+
   render() {
     const content = this.state.loading ? (
       <Spinner />
@@ -78,6 +138,11 @@ class Gallery extends Component {
     ) : (
       <div className="admin-login">
         <h1>Albumo redagavimas</h1>
+        {this.state.error ? (
+          <div className="validate">
+            <p>{this.state.errorMessage}</p>
+          </div>
+        ) : null}
         <div className="contacts-form login-form">
           <form className="message-form" onSubmit={this.handleSubmit}>
             <div className="form-control">

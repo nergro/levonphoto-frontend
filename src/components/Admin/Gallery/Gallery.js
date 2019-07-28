@@ -6,11 +6,10 @@ import Spinner from "../../UI/Spinner/Spinner";
 class Gallery extends Component {
   state = {
     title: "",
-    albumCover: "",
-    firstHidden: "",
-    secondHidden: "",
     images: [],
-    loading: false
+    loading: false,
+    error: false,
+    errorMessage: ""
   };
 
   onFilePickChange = (value, files) => {
@@ -36,45 +35,81 @@ class Gallery extends Component {
   };
 
   handleSubmit = e => {
-    this.setState({
-      loading: true
-    });
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", this.state.title);
-    formData.append("image", this.state.albumCover);
-    formData.append("image", this.state.firstHidden);
-    formData.append("image", this.state.secondHidden);
-    for (const image of this.state.images) {
-      formData.append("image", image);
-    }
 
-    axios
-      .post("/album", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data"
-        }
-      })
-      .then(result => {
-        console.log("Album created!");
-        this.setState({
-          loading: false
-        });
-        this.props.history.push("/galerija");
-      })
-      .catch(err => {
-        console.log(err.message);
-        this.setState({
-          loading: false
-        });
+    const imgArr = [...this.state.images];
+    if (imgArr.length >= 3) {
+      this.setState({
+        loading: true
       });
+      Promise.all(
+        imgArr.map(image => {
+          const formData = new FormData();
+          const uniqueFileName = image.name + "-" + new Date().toISOString();
+
+          formData.append("file", image);
+          formData.append("tags", "albums");
+          formData.append("upload_preset", "pqfkiqsm");
+          formData.append("api_key", "315826331834584");
+          formData.append("timestamp", (Date.now() / 1000) | 0);
+          formData.append("public_id", `albums/${uniqueFileName}`);
+          return axios
+            .post(
+              "https://api.cloudinary.com/v1_1/dvrfxqcuv/image/upload",
+              formData,
+              {
+                headers: { "X-Requested-With": "XMLHttpRequest" }
+              }
+            )
+            .then(response => {
+              const dbData = {
+                imageUrl: response.data.secure_url,
+                publicId: response.data.public_id
+              };
+              return dbData;
+            })
+            .catch(err => err);
+        })
+      )
+        .then(res => {
+          const data = {
+            title: this.state.title,
+            images: res
+          };
+          return axios.post("/album", data);
+        })
+        .then(res => {
+          this.setState({
+            loading: false
+          });
+          this.props.history.push("/galerija");
+        })
+        .catch(err => {
+          this.setState({
+            loading: false,
+            error: true,
+            errorMessage: "Sukurti albumo nepavyko"
+          });
+        });
+    } else {
+      this.setState({
+        error: true,
+        errorMessage: "Albumą turi sudaryti bent trys nuotraukos"
+      });
+    }
   };
+
   render() {
     const content = this.state.loading ? (
       <Spinner />
     ) : (
       <div className="admin-login">
         <h1>Albumo sukūrimas</h1>
+        {this.state.error ? (
+          <div className="validate">
+            <p>{this.state.errorMessage}</p>
+          </div>
+        ) : null}
         <div className="contacts-form login-form">
           <form className="message-form" onSubmit={this.handleSubmit}>
             <div className="form-control">
@@ -87,39 +122,7 @@ class Gallery extends Component {
                 spellCheck="false"
               />
             </div>
-            <div className="form-control">
-              <label htmlFor="album-cover">Albumo pagrindinė nuotrauka</label>
-              <input
-                type="file"
-                name="image"
-                onChange={e =>
-                  this.onFilePickChange("albumCover", e.target.files)
-                }
-                required
-              />
-            </div>
-            <div className="form-control">
-              <label htmlFor="album-behind-one">Albumo antrinė nuotrauka</label>
-              <input
-                type="file"
-                name="image"
-                onChange={e =>
-                  this.onFilePickChange("firstHidden", e.target.files)
-                }
-                required
-              />
-            </div>
-            <div className="form-control">
-              <label htmlFor="album-behind-two">Albumo tretinė nuotrauka</label>
-              <input
-                type="file"
-                name="image"
-                onChange={e =>
-                  this.onFilePickChange("secondHidden", e.target.files)
-                }
-                required
-              />
-            </div>
+
             <hr />
             <div className="form-control">
               <label htmlFor="album-photos">Albumo nuotraukos</label>
