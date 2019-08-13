@@ -1,21 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Image.scss";
 
-const Image = props => {
-  useEffect(() => {
-    props.imagesLoading();
-    // eslint-disable-next-line
-  }, []);
-
+const Image = ({ imageUrl }) => {
   return (
     <div className="image-block">
       <div className="image-wrapper">
-        <img
-          className="image-wrapper__image"
-          src={props.imageUrl}
-          alt={props.imageTitle}
-          onLoad={props.imagesLoaded}
-        />
+        <img className="image-wrapper__image" src={imageUrl} alt="main" />
       </div>
       <svg
         className="svg-arrows"

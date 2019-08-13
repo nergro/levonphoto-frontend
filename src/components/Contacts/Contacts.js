@@ -1,47 +1,87 @@
-import React from "react";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
 import Spinner from "../UI/Spinner/Spinner";
+import { URL } from "../../services/levonDB";
 
-const contacts = props => {
-  const formStyle =
-    props.emailSent || props.emailError
-      ? {
-          justifyContent: "center",
-          alignItems: "center"
-        }
-      : null;
-  const content = props.loading ? (
-    <Spinner />
-  ) : props.error ? (
-    <h1 style={{ textAlign: "center" }}>
-      Serverio klaida. Atsiprašome už nepatogumus.
-    </h1>
-  ) : (
-    <div className="contacts">
-      <iframe
-        className="contacts-map"
-        title="Google maps"
-        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5263.856880099901!2d22.340575632097515!3d56.30948053720962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slt!4v1563294579878!5m2!1sen!2slt"
-        width="100%"
-        height="450"
-        frameBorder="0"
-        allowFullScreen
-      />
-      <div className="contacts-wrapper">
-        <div className="contacts-info">
-          <h1>Kontaktai</h1>
-          <svg
-            className="envelope-svg"
-            version="1.1"
-            id="Layer_1"
-            x="0px"
-            y="0px"
-            viewBox="0 0 512 512"
-            style={{ enableBackground: "new 0 0 512 512" }}
-          >
-            <g>
-              <g>
-                <path
-                  d="M511.609,197.601c-0.001-0.77-0.173-1.933-0.472-2.603c-0.787-2.854-2.536-5.461-5.154-7.281l-73.292-50.948V82.153
+class Contacts extends Component {
+  state = {
+    loading: false,
+    error: false,
+
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+    emailSending: false,
+    emailSendError: false,
+    emailSent: false
+  };
+
+  onInputChange = (input, value) => {
+    this.setState({
+      [input]: value
+    });
+  };
+
+  handleEmailSend = () => {
+    this.setState({
+      emailSending: true
+    });
+    const formData = new FormData();
+    formData.append("name", this.state.name);
+    formData.append("email", this.state.email);
+    formData.append("subject", this.state.subject);
+    formData.append("message", this.state.message);
+
+    axios
+      .post(`${URL}/sendemail`, formData)
+      .then(() => {
+        this.setState({
+          emailSending: false,
+          emailSent: true
+        });
+      })
+      .catch(() => {
+        this.setState({
+          emailSending: false,
+          emailSendError: true,
+          emailSent: false
+        });
+      });
+  };
+
+  render() {
+    const { contacts, error } = this.props;
+    return (
+      <React.Fragment>
+        {contacts ? (
+          <div className="contacts">
+            <iframe
+              className="contacts-map"
+              title="Google maps"
+              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d5263.856880099901!2d22.340575632097515!3d56.30948053720962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2slt!4v1563294579878!5m2!1sen!2slt"
+              width="100%"
+              height="450"
+              frameBorder="0"
+              allowFullScreen
+            />
+            <div className="contacts-wrapper">
+              <div className="contacts-info">
+                <h1>Kontaktai</h1>
+                <svg
+                  className="envelope-svg"
+                  version="1.1"
+                  id="Layer_1"
+                  x="0px"
+                  y="0px"
+                  viewBox="0 0 512 512"
+                  style={{ enableBackground: "new 0 0 512 512" }}
+                >
+                  <g>
+                    <g>
+                      <path
+                        d="M511.609,197.601c-0.001-0.77-0.173-1.933-0.472-2.603c-0.787-2.854-2.536-5.461-5.154-7.281l-73.292-50.948V82.153
 			c0-7.24-5.872-13.112-13.112-13.112H335.26l-71.743-49.878c-4.484-3.121-10.437-3.134-14.935-0.026l-72.206,49.904H92.426
 			c-7.242,0-13.112,5.872-13.112,13.112v53.973L5.666,187.027c-3.623,2.504-5.583,6.507-5.645,10.6
 			C0.017,197.704,0,197.777,0,197.857l0.391,284.235c0.005,3.477,1.391,6.81,3.852,9.266c2.458,2.451,5.788,3.827,9.26,3.827
@@ -51,118 +91,144 @@ const contacts = props => {
 			V95.265z M79.314,168.003v59.64l-43.146-29.819L79.314,168.003z M26.258,222.867l158.669,109.655L26.578,455.346L26.258,222.867z
 			 M51.875,468.909l204.324-158.484l203.591,157.923L51.875,468.909z M327.144,332.271l158.276-110.036l0.32,233.059
 			L327.144,332.271z"
-                />
-              </g>
-            </g>
-            <g>
-              <g>
-                <path
-                  d="M344.77,147.713H167.234c-7.24,0-13.112,5.872-13.112,13.112s5.872,13.112,13.112,13.112H344.77
+                      />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path
+                        d="M344.77,147.713H167.234c-7.24,0-13.112,5.872-13.112,13.112s5.872,13.112,13.112,13.112H344.77
 			c7.242,0,13.112-5.872,13.112-13.112S352.012,147.713,344.77,147.713z"
-                />
-              </g>
-            </g>
-            <g>
-              <g>
-                <path
-                  d="M344.77,215.895H167.234c-7.24,0-13.112,5.872-13.112,13.112c0,7.24,5.872,13.112,13.112,13.112H344.77
+                      />
+                    </g>
+                  </g>
+                  <g>
+                    <g>
+                      <path
+                        d="M344.77,215.895H167.234c-7.24,0-13.112,5.872-13.112,13.112c0,7.24,5.872,13.112,13.112,13.112H344.77
 			c7.242,0,13.112-5.872,13.112-13.112C357.882,221.767,352.012,215.895,344.77,215.895z"
-                />
-              </g>
-            </g>
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-            <g />
-          </svg>
-          <p>
-            <strong>Telefonas: </strong>
-            {props.phone}
-          </p>
-          <p>
-            <strong>El. Paštas: </strong>
-            {props.email}
-          </p>
-        </div>
-        <div className="contacts-form" style={formStyle}>
-          {props.emailSending ? (
-            <Spinner />
-          ) : props.emailError ? (
-            <div className="email-sent email-failed">
-              <h3>Žinutės išsiųsti nepavyko</h3>
+                      />
+                    </g>
+                  </g>
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                  <g />
+                </svg>
+                <p>
+                  <strong>Telefonas: </strong>
+                  {contacts.phone}
+                </p>
+                <p>
+                  <strong>El. Paštas: </strong>
+                  {contacts.email}
+                </p>
+              </div>
+              <div className="contacts-form">
+                {this.state.emailSending ? (
+                  <Spinner />
+                ) : this.state.emailError ? (
+                  <div className="email-sent email-failed">
+                    <h3>Žinutės išsiųsti nepavyko</h3>
+                  </div>
+                ) : this.state.emailSent ? (
+                  <div className="email-sent">
+                    <h3>Žinutė išsiųsta</h3>
+                  </div>
+                ) : (
+                  <form
+                    className="message-form"
+                    onSubmit={this.handleEmailSend}
+                  >
+                    <div className="form-control-inline">
+                      <div className="form-control form-control-inline__control">
+                        <input
+                          type="text"
+                          name="name"
+                          autoComplete="off"
+                          placeholder="Vardas"
+                          spellCheck="false"
+                          onChange={e =>
+                            this.onInputChange("name", e.target.value)
+                          }
+                          required
+                        />
+                      </div>
+                      <div className="form-control form-control-inline__control">
+                        <input
+                          type="email"
+                          name="email"
+                          autoComplete="off"
+                          placeholder="Jūsų el. paštas"
+                          spellCheck="false"
+                          onChange={e =>
+                            this.onInputChange("email", e.target.value)
+                          }
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="form-control">
+                      <input
+                        type="text"
+                        name="subject"
+                        autoComplete="off"
+                        placeholder="Tema"
+                        spellCheck="false"
+                        onChange={e =>
+                          this.onInputChange("subject", e.target.value)
+                        }
+                        required
+                      />
+                    </div>
+                    <div className="form-control">
+                      <textarea
+                        name="message"
+                        rows="10"
+                        placeholder="Žinutė"
+                        spellCheck="false"
+                        onChange={e =>
+                          this.onInputChange("message", e.target.value)
+                        }
+                        required
+                      />
+                    </div>
+                    <button type="submit" className="form-button">
+                      SIŲSTI
+                    </button>
+                  </form>
+                )}
+              </div>
             </div>
-          ) : props.emailSent ? (
-            <div className="email-sent">
-              <h3>Žinutė išsiųsta</h3>
-            </div>
-          ) : (
-            <form className="message-form" onSubmit={props.onSubmit}>
-              <div className="form-control-inline">
-                <div className="form-control form-control-inline__control">
-                  <input
-                    type="text"
-                    name="name"
-                    autoComplete="off"
-                    placeholder="Vardas"
-                    spellCheck="false"
-                    onChange={e => props.onChange("name", e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="form-control form-control-inline__control">
-                  <input
-                    type="email"
-                    name="email"
-                    autoComplete="off"
-                    placeholder="Jūsų el. paštas"
-                    spellCheck="false"
-                    onChange={e => props.onChange("email", e.target.value)}
-                    required
-                  />
-                </div>
-              </div>
-              <div className="form-control">
-                <input
-                  type="text"
-                  name="subject"
-                  autoComplete="off"
-                  placeholder="Tema"
-                  spellCheck="false"
-                  onChange={e => props.onChange("subject", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="form-control">
-                <textarea
-                  name="message"
-                  rows="10"
-                  placeholder="Žinutė"
-                  spellCheck="false"
-                  onChange={e => props.onChange("message", e.target.value)}
-                  required
-                />
-              </div>
-              <button type="submit" className="form-button">
-                SIŲSTI
-              </button>
-            </form>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-  return <React.Fragment>{content}</React.Fragment>;
+          </div>
+        ) : error ? (
+          <h1 style={{ textAlign: "center" }}>
+            Serverio klaida. Atsiprašome už nepatogumus.
+          </h1>
+        ) : (
+          <Spinner />
+        )}
+      </React.Fragment>
+    );
+  }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    error: state.main.error,
+    contacts: state.main.contacts
+  };
 };
 
-export default contacts;
+export default connect(mapStateToProps)(Contacts);

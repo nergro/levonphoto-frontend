@@ -1,6 +1,9 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions";
+// import * as actions from "../../store/actions";
+// import logout from '../../store/actions/main';
+import { handleLogout } from "../../store/actions/auth";
 
 class Header extends Component {
   state = {
@@ -16,7 +19,7 @@ class Header extends Component {
   };
 
   logout = () => {
-    this.props.logout();
+    this.props.handleLogout();
   };
 
   render() {
@@ -28,10 +31,10 @@ class Header extends Component {
         <div className="header-bottom">
           <div className="header-bottom-wrapper">
             <div className="header-bottom-brand">
-              <a href="/">
+              <Link to="/">
                 <span className="regular">LEVON</span>
                 <span className="highlighted">photo</span>
-              </a>
+              </Link>
             </div>
             <button className="toggle-button" onClick={this.handleMobileNav}>
               <span className="toggle-button__bar" />
@@ -41,31 +44,31 @@ class Header extends Component {
             <nav className="header-bottom-nav">
               <ul className="header-bottom-nav__items">
                 <li className="header-bottom-nav__item ">
-                  <a className="active" href="/">
+                  <Link className="active" to="/">
                     PAGRINDINIS
-                  </a>
+                  </Link>
                 </li>
                 <li className="header-bottom-nav__item">
-                  <a href="/paslaugos">PASLAUGOS</a>
+                  <Link to="/paslaugos">PASLAUGOS</Link>
                 </li>
 
                 <li className="header-bottom-nav__item">
-                  <a href="/galerija">GALERIJA</a>
+                  <Link to="/galerija">GALERIJA</Link>
                 </li>
                 <li className="header-bottom-nav__item">
-                  <a href="/kontaktai">KONTAKTAI</a>
+                  <Link to="/kontaktai">KONTAKTAI</Link>
                 </li>
                 {this.props.isAuth ? (
                   <li className="header-bottom-nav__item">
-                    <a href="/admin">VALDYMAS</a>
+                    <Link to="/admin">VALDYMAS</Link>
                   </li>
                 ) : null}
 
                 {this.props.isAuth ? (
                   <li className="header-bottom-nav__item">
-                    <a href="/" style={{ color: "red" }} onClick={this.logout}>
+                    <Link to="/" style={{ color: "red" }} onClick={this.logout}>
                       ATSIJUNGTI
-                    </a>
+                    </Link>
                   </li>
                 ) : null}
               </ul>
@@ -74,28 +77,28 @@ class Header extends Component {
           <nav className={mobileNavClasses}>
             <ul className="mobile-nav__items">
               <li className="mobile-nav__item">
-                <a href="/">PAGRINDINIS</a>
+                <Link to="/">PAGRINDINIS</Link>
               </li>
               <li className="mobile-nav__item">
-                <a href="/paslaugos">PASLAUGOS</a>
+                <Link to="/paslaugos">PASLAUGOS</Link>
               </li>
               <li className="mobile-nav__item">
-                <a href="/galerija">GALERIJA</a>
+                <Link to="/galerija">GALERIJA</Link>
               </li>
               <li className="mobile-nav__item">
-                <a href="/kontaktai">KONTAKTAI</a>
+                <Link to="/kontaktai">KONTAKTAI</Link>
               </li>
               {this.props.isAuth ? (
                 <li className="mobile-nav__item">
-                  <a href="/admin">VALDYMAS</a>
+                  <Link to="/admin">VALDYMAS</Link>
                 </li>
               ) : null}
 
               {this.props.isAuth ? (
                 <li className="mobile-nav__item">
-                  <a href="/" style={{ color: "red" }} onClick={this.logout}>
+                  <Link to="/" style={{ color: "red" }} onClick={this.logout}>
                     ATSIJUNGTI
-                  </a>
+                  </Link>
                 </li>
               ) : null}
             </ul>
@@ -111,10 +114,8 @@ const mapStateToProps = state => {
     isAuth: state.auth.isAuth
   };
 };
-const mapDispatchToProps = dispatch => {
-  return {
-    logout: () => dispatch(actions.handleLogout())
-  };
+const mapDispatchToProps = {
+  handleLogout
 };
 export default connect(
   mapStateToProps,

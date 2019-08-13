@@ -1,44 +1,39 @@
-import * as actionTypes from "../actions/actionTypes";
+import {
+  AUTH_LOADING,
+  AUTH_FAILED,
+  LOGIN_SUCCESS,
+  LOGOUT
+} from "../actions/auth";
 
 const initialState = {
   isAuth: false,
   loading: false,
   error: false,
-  userId: "",
-  checked: false,
-  message: ""
+  userId: ""
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LOGIN_START:
+    case AUTH_LOADING:
       return {
         ...state,
         loading: true
       };
-    case actionTypes.LOGIN_SUCCESS:
+    case AUTH_FAILED:
       return {
         ...state,
         loading: false,
-        isAuth: action.isAuth,
+        isAuth: false,
+        error: true
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isAuth: true,
         userId: action.userId
       };
-    case actionTypes.LOGIN_FAIL:
-      return {
-        ...state,
-        loading: false,
-        isAuth: action.isAuth,
-        error: true,
-        message: action.message
-      };
-    case actionTypes.SET_AUTH_STATUS:
-      return {
-        ...state,
-        isAuth: action.isAuth,
-        userId: action.userId,
-        checked: true
-      };
-    case actionTypes.LOGOUT:
+    case LOGOUT:
       return {
         ...state,
         isAuth: false

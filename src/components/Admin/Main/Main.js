@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const main = () => {
   return (
@@ -7,16 +8,16 @@ const main = () => {
       <div className="admin-main-nav">
         <ul className="admin-main-nav__items">
           <li className="admin-main-nav__item">
-            <a href="/admin/pagrindinis">PAGRINDINIS PUSLAPIS</a>
+            <Link to="/admin/pagrindinis">PAGRINDINIS PUSLAPIS</Link>
           </li>
           <li className="admin-main-nav__item">
-            <a href="/admin/paslaugos">PASLAUGOS</a>
+            <Link to="/admin/paslaugos">PASLAUGOS</Link>
           </li>
           <li className="admin-main-nav__item">
-            <a href="/admin/galerija">ALBUMO SUKŪRIMAS</a>
+            <Link to="/admin/galerija">ALBUMO SUKŪRIMAS</Link>
           </li>
           <li className="admin-main-nav__item">
-            <a href="/admin/kontaktai">KONTAKTAI</a>
+            <Link to="/admin/kontaktai">KONTAKTAI</Link>
           </li>
         </ul>
       </div>

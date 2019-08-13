@@ -16,6 +16,9 @@
   opacity: 0.3;
   transform: scale(1.1);
 }
+.image-block:hover .svg-arrows {
+  display: block;
+}
 @media (max-width: 65rem) {
   .image-wrapper:hover {
     opacity: 1;

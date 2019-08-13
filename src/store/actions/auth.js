@@ -1,81 +1,57 @@
-import * as actionTypes from "./actionTypes";
-import axios from "axios";
+import { loginUser } from "../../services/levonDB";
+import { fetchAll } from "./main";
 
-export const loginStart = () => {
+export const AUTH_LOADING = "AUTH_LOADING";
+export const AUTH_FAILED = "AUTH_FAILED";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const CHECK_USER = "CHECK_USER";
+export const LOGOUT = "LOGOUT";
+
+export const authLoading = () => {
   return {
-    type: actionTypes.LOGIN_START
+    type: AUTH_LOADING
   };
 };
 
-export const loginSuccess = (isAuth, userId) => {
+export const authFailed = () => {
   return {
-    type: actionTypes.LOGIN_SUCCESS,
-    isAuth: isAuth,
-    userId: userId
+    type: AUTH_FAILED
   };
 };
 
-export const loginFail = (isAuth, message) => {
+export const loginSuccess = userId => {
   return {
-    type: actionTypes.LOGIN_FAIL,
-    isAuth: false,
-    message: message
-  };
-};
-
-export const setAuth = (isAuth, userId) => {
-  return {
-    type: actionTypes.SET_AUTH_STATUS,
-    isAuth: isAuth,
-    userId: userId
+    type: LOGIN_SUCCESS,
+    userId
   };
 };
 
 export const logout = () => {
   return {
-    type: actionTypes.LOGOUT
+    type: LOGOUT
   };
 };
 
-export const login = formData => {
-  return dispatch => {
-    dispatch(loginStart());
-    axios
-      .post("/login", formData)
-      .then(res => {
-        dispatch(loginSuccess(res.data["isAuth"], res.data["userId"]));
-        localStorage.setItem("isAuth", res.data["isAuth"]);
-        localStorage.setItem("userId", res.data["userId"]);
-      })
-      .catch(error => {
-        if (error.response) {
-          dispatch(loginFail(false, error.response.data.message));
-        } else {
-          dispatch(loginFail(false, "Serverio klaida. Pabandykite vėliau."));
-        }
-      });
-  };
+export const login = formData => async (dispatch, getState) => {
+  dispatch(authLoading());
+  try {
+    const userId = await loginUser(formData);
+    localStorage.setItem("userId", userId);
+    dispatch(loginSuccess(userId));
+  } catch {
+    dispatch(authFailed());
+  }
 };
 
-export const setAuthStatus = userId => {
-  return dispatch => {
-    axios
-      .get("/user/" + userId.toString())
-      .then(res => {
-        dispatch(setAuth(res.data["isAuth"], res.data["userId"]));
-      })
-      .catch(err => {
-        dispatch(setAuth(false));
-        localStorage.removeItem("isAuth");
-        localStorage.removeItem("userId");
-      });
-  };
+export const checkUser = () => async (dispatch, getState) => {
+  const userId = localStorage.getItem("userId");
+  dispatch(fetchAll());
+  if (userId) {
+    dispatch(loginSuccess(userId));
+  }
 };
 
-export const handleLogout = () => {
-  localStorage.removeItem("isAuth");
+export const handleLogout = () => async (dispatch, getState) => {
   localStorage.removeItem("userId");
-  return dispatch => {
-    dispatch(logout());
-  };
+  dispatch(logout());
 };

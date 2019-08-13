@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { generateBase64FromImage } from "../../../util/image";
 import Spinner from "../../UI/Spinner/Spinner";
+import { updateServices } from "../../../store/actions/main";
 
 class Services extends Component {
   state = {
@@ -12,36 +14,23 @@ class Services extends Component {
     secondDescription: "",
     thirdTitle: "",
     thirdDescription: "",
-    imageUrl: "",
+    imageUrl: null,
     imagePreview: null,
     loading: false,
     error: false
   };
 
   componentDidMount() {
+    const { services } = this.props;
     this.setState({
-      loading: true
+      firstTitle: services.firstTitle,
+      firstDescription: services.firstDescription,
+      secondTitle: services.secondTitle,
+      secondDescription: services.secondDescription,
+      thirdTitle: services.thirdTitle,
+      thirdDescription: services.thirdDescription,
+      loading: false
     });
-    axios
-      .get("/services")
-      .then(res => {
-        const services = res.data.services[0];
-        this.setState({
-          firstTitle: services.firstTitle,
-          firstDescription: services.firstDescription,
-          secondTitle: services.secondTitle,
-          secondDescription: services.secondDescription,
-          thirdTitle: services.thirdTitle,
-          thirdDescription: services.thirdDescription,
-          loading: false
-        });
-      })
-      .catch(err => {
-        this.setState({
-          loading: false,
-          error: true
-        });
-      });
   }
 
   onFilePickChange = (value, files) => {
@@ -67,7 +56,7 @@ class Services extends Component {
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
     this.setState({
       loading: true
     });
@@ -82,60 +71,20 @@ class Services extends Component {
       thirdDescription: this.state.thirdDescription
     };
 
-    if (this.state.imageUrl) {
-      const formData = new FormData();
-      const uniqueFileName =
-        this.state.imageUrl.name + "-" + new Date().toISOString();
-
-      formData.append("file", this.state.imageUrl);
-      formData.append("tags", "home");
-      formData.append("upload_preset", "pqfkiqsm");
-      formData.append("api_key", "315826331834584");
-      formData.append("timestamp", (Date.now() / 1000) | 0);
-      formData.append("public_id", `services/${uniqueFileName}`);
-
-      axios
-        .post(
-          "https://api.cloudinary.com/v1_1/dvrfxqcuv/image/upload",
-          formData,
-          {
-            headers: { "X-Requested-With": "XMLHttpRequest" }
-          }
-        )
-        .then(response => {
-          data.imageUrl = response.data.secure_url;
-          data.publicId = response.data.public_id;
-          return axios.post("/services", data);
-        })
-        .then(res => {
-          this.setState({
-            loading: false
-          });
-          this.props.history.push("/paslaugos");
-          console.log("Services updated!");
-        })
-        .catch(err => {
-          this.setState({
-            loading: false
-          });
-          console.log(err.message);
-        });
-    } else {
-      axios
-        .post("/services", data)
-        .then(result => {
-          this.setState({
-            loading: false
-          });
-          this.props.history.push("/paslaugos");
-          console.log("Services updated!");
-        })
-        .catch(err => {
-          this.setState({
-            loading: false
-          });
-          console.log(err.message);
-        });
+    const {
+      updateServices,
+      history: { push }
+    } = this.props;
+    try {
+      await updateServices(data, this.state.imageUrl);
+      this.setState({
+        loading: false
+      });
+      push("/paslaugos");
+    } catch (err) {
+      this.setState({
+        error: true
+      });
     }
   };
   render() {
@@ -261,4 +210,17 @@ class Services extends Component {
   }
 }
 
-export default withRouter(Services);
+const mapStateToProps = state => {
+  return {
+    services: state.main.services
+  };
+};
+
+const mapDispatchToProps = {
+  updateServices
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Services));

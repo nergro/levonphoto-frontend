@@ -2,10 +2,6 @@ import React, { Component } from "react";
 import "./Album.scss";
 
 class album extends Component {
-  componentDidMount() {
-    this.props.imagesLoading();
-  }
-
   render() {
     const beforeOne = {
       backgroundImage: `url(${this.props.beforeOneUrl})`
@@ -18,12 +14,7 @@ class album extends Component {
       <div className="album">
         <div className="album-behind-one" style={beforeOne} />
         <div className="album-behind-two" style={beforeTwo} />
-        <img
-          className="album-cover"
-          src={this.props.coverUrl}
-          alt="album"
-          onLoad={this.props.imagesLoaded}
-        />
+        <img className="album-cover" src={this.props.coverUrl} alt="album" />
 
         <h3>{this.props.albumTitle}</h3>
       </div>

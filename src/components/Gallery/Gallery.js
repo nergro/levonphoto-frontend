@@ -1,111 +1,71 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import Album from "./Album/Album";
 import Spinner from "../UI/Spinner/Spinner";
 import TrashIcon from "../../images/svgs/trash-icon";
+import { deleteAlbum } from "../../store/actions/main";
 
-class gallery extends Component {
-  state = {
-    albums: null,
-    loading: false,
-    error: false,
-    imagesLoading: false
-  };
-  componentDidMount() {
-    this.setState({
-      loading: true
-    });
-    axios
-      .get("/albums")
-      .then(res => {
-        this.setState({
-          albums: res.data.albums,
-          loading: false
-        });
-      })
-      .catch(err => {
-        this.setState({
-          loading: false,
-          error: true
-        });
-      });
-  }
-  imagesLoading = () => {
-    this.setState({
-      imagesLoading: true
-    });
-  };
-  imagesLoaded = () => {
-    this.setState({
-      imagesLoading: false
-    });
-  };
-
-  handleAlbumRemoval = albumId => {
+const Gallery = ({ isAuth, albums, error, deleteAlbum }) => {
+  const handleAlbumRemoval = async albumId => {
     if (window.confirm("Ar tikrai norite ištrinti?")) {
-      axios
-        .delete("/album/" + albumId)
-        .then(res => {
-          window.location.reload();
-        })
-        .catch(err => {
-          alert("Ištrinti nepavyko");
-        });
+      try {
+        await deleteAlbum(albumId);
+      } catch (err) {
+        alert("Ištrinti nepavyko");
+      }
     }
   };
-  render() {
-    const albumStyle = {
-      opacity: this.state.imagesLoading ? "0" : "1"
-    };
-    const spinnerStyle = {
-      position: "absolute",
-      top: "30%"
-    };
-    const content = this.state.loading ? (
-      <Spinner />
-    ) : this.state.error ? (
-      <h1 style={{ textAlign: "center" }}>
-        Serverio klaida. Atsiprašome už nepatogumus.
-      </h1>
-    ) : this.state.albums ? (
-      <div className="gallery">
-        <h1 className="gallery-title">Galerija</h1>
-        <div className="gallery-albums" style={albumStyle}>
-          {this.state.albums.map(album => {
-            return (
-              <div className="gallery-album" key={album._id}>
-                <a href={"/galerija/" + album._id}>
-                  <Album
-                    coverUrl={album.albumCover}
-                    beforeOneUrl={album.firstHidden}
-                    beforeTwoUrl={album.secondHidden}
-                    albumTitle={album.title}
-                    imagesLoading={this.imagesLoading}
-                    imagesLoaded={this.imagesLoaded}
-                  />
-                </a>
-                {this.props.isAuth ? (
-                  <TrashIcon
-                    clicked={() => this.handleAlbumRemoval(album._id)}
-                  />
-                ) : null}
-              </div>
-            );
-          })}
-        </div>
-        {this.state.imagesLoading ? <Spinner style={spinnerStyle} /> : null}
-      </div>
-    ) : null;
 
-    return <React.Fragment>{content}</React.Fragment>;
-  }
-}
+  return (
+    <React.Fragment>
+      {albums ? (
+        <div className="gallery">
+          <h1 className="gallery-title">Galerija</h1>
+          <div className="gallery-albums">
+            {albums.map(album => {
+              return (
+                <div className="gallery-album" key={album._id}>
+                  <Link to={"/galerija/" + album._id}>
+                    <Album
+                      coverUrl={album.albumCover}
+                      beforeOneUrl={album.firstHidden}
+                      beforeTwoUrl={album.secondHidden}
+                      albumTitle={album.title}
+                    />
+                  </Link>
+                  {isAuth ? (
+                    <TrashIcon clicked={() => handleAlbumRemoval(album._id)} />
+                  ) : null}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : error ? (
+        <h1 style={{ textAlign: "center" }}>
+          Serverio klaida. Atsiprašome už nepatogumus.
+        </h1>
+      ) : (
+        <Spinner />
+      )}
+    </React.Fragment>
+  );
+};
 
 const mapStateToProps = state => {
   return {
-    isAuth: state.auth.isAuth
+    isAuth: state.auth.isAuth,
+    albums: state.main.albums,
+    error: state.main.error
   };
 };
 
-export default connect(mapStateToProps)(gallery);
+const mapDispatchToProps = {
+  deleteAlbum
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Gallery);

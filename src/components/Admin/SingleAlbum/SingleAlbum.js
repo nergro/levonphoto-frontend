@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import axios from "axios";
+import { connect } from "react-redux";
 import Spinner from "../../UI/Spinner/Spinner";
+import { updateAlbum } from "../../../store/actions/main";
 
 class Gallery extends Component {
   state = {
@@ -14,26 +15,22 @@ class Gallery extends Component {
   };
 
   componentDidMount() {
-    const albumId = this.props.match.params.albumId;
+    const { match, fetchedAlbums } = this.props;
+    const { albumId } = match.params;
+
+    const album = this.findAlbum(fetchedAlbums, albumId);
     this.setState({
-      loading: true,
+      title: album.title,
       albumId: albumId
     });
-    axios
-      .get("/album/" + albumId)
-      .then(res => {
-        this.setState({
-          title: res.data.title,
-          loading: false
-        });
-      })
-      .catch(err => {
-        this.setState({
-          loading: false,
-          error: true
-        });
-      });
   }
+
+  findAlbum = (albums, albumId) => {
+    const album = albums
+      ? albums.find(al => al.album.toString() === albumId)
+      : null;
+    return album;
+  };
 
   onMultiFilePickChange = (value, files) => {
     if (files) {
@@ -49,84 +46,28 @@ class Gallery extends Component {
     });
   };
 
-  handleSubmit = e => {
+  handleSubmit = async e => {
+    const { updateAlbum, match, history } = this.props;
+    const { images, title } = this.state;
     this.setState({
       loading: true
     });
     e.preventDefault();
 
-    const imgArr = [...this.state.images];
-    if (imgArr.length > 0) {
-      Promise.all(
-        imgArr.map(image => {
-          const formData = new FormData();
-          const uniqueFileName = image.name + "-" + new Date().toISOString();
-
-          formData.append("file", image);
-          formData.append("tags", "albums");
-          formData.append("upload_preset", "pqfkiqsm");
-          formData.append("api_key", "315826331834584");
-          formData.append("timestamp", (Date.now() / 1000) | 0);
-          formData.append("public_id", `albums/${uniqueFileName}`);
-          return axios
-            .post(
-              "https://api.cloudinary.com/v1_1/dvrfxqcuv/image/upload",
-              formData,
-              {
-                headers: { "X-Requested-With": "XMLHttpRequest" }
-              }
-            )
-            .then(response => {
-              const dbData = {
-                imageUrl: response.data.secure_url,
-                publicId: response.data.public_id
-              };
-              return dbData;
-            })
-            .catch(err => err);
-        })
-      )
-        .then(res => {
-          const data = {
-            albumId: this.state.albumId,
-            title: this.state.title,
-            images: res
-          };
-          return axios.post("/album/" + this.state.albumId + "/edit", data);
-        })
-        .then(res => {
-          this.setState({
-            loading: false
-          });
-          this.props.history.push("/galerija/" + this.state.albumId);
-        })
-        .catch(err => {
-          this.setState({
-            loading: false,
-            error: true,
-            errorMessage: "Atnaujinti albumo nepavyko"
-          });
-        });
-    } else {
-      const data = {
-        albumId: this.state.albumId,
-        title: this.state.title
-      };
-      axios
-        .post("/album/" + this.state.albumId + "/edit", data)
-        .then(res => {
-          this.setState({
-            loading: false
-          });
-          this.props.history.push("/galerija/" + this.state.albumId);
-        })
-        .catch(err => {
-          this.setState({
-            loading: false,
-            error: true,
-            errorMessage: "Atnaujinti albumo nepavyko"
-          });
-        });
+    const albumId = match.params.albumId;
+    const imgArr = [...images];
+    try {
+      await updateAlbum(albumId, imgArr, title);
+      this.setState({
+        loading: false
+      });
+      history.push("/galerija/" + albumId);
+    } catch (err) {
+      this.setState({
+        loading: false,
+        error: true,
+        errorMessage: "Atnaujinti albumo nepavyko"
+      });
     }
   };
 
@@ -182,4 +123,16 @@ class Gallery extends Component {
   }
 }
 
-export default withRouter(Gallery);
+const mapStateToProps = state => {
+  return {
+    fetchedAlbums: state.main.fetchedAlbums
+  };
+};
+const mapDispatchToProps = {
+  updateAlbum
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Gallery));

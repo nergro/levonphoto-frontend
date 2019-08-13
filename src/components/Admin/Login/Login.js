@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actions from "../../../store/actions";
+// import * as actions from "../../../store/actions";
+import { login } from "../../../store/actions/auth";
 import Spinner from "../../UI/Spinner/Spinner";
 
 class Login extends Component {
@@ -21,66 +22,67 @@ class Login extends Component {
       name: this.state.name,
       password: this.state.password
     };
-    this.props.login(data);
+    this.props.login(data).then(() => {
+      this.props.history.push("/admin");
+    });
   };
   render() {
-    const content = this.props.loading ? (
-      <Spinner />
-    ) : this.props.isAuth ? (
-      <Redirect to="/admin" />
-    ) : (
-      <div className="admin-login">
-        <h1>Prisijungti</h1>
-        {this.props.message.length > 0 ? (
-          <p style={{ color: "red" }}>{this.props.message}</p>
-        ) : null}
-        <div className="contacts-form login-form">
-          <form className="message-form" onSubmit={this.handleLogin}>
-            <div className="form-control">
-              <input
-                type="text"
-                name="name"
-                placeholder="Prisijungimo vardas"
-                onChange={e => this.onInputChange("name", e.target.value)}
-                required
-              />
-            </div>
-            <div className="form-control">
-              <input
-                type="password"
-                name="password"
-                placeholder="Slaptažodis"
-                onChange={e => this.onInputChange("password", e.target.value)}
-                required
-              />
-            </div>
+    return (
+      <React.Fragment>
+        {this.props.loading ? (
+          <Spinner />
+        ) : (
+          <div className="admin-login">
+            <h1>Prisijungti</h1>
+            {/* {this.props.message.length > 0 ? (
+            <p style={{ color: "red" }}>{this.props.message}</p>
+          ) : null} */}
+            <div className="contacts-form login-form">
+              <form className="message-form" onSubmit={this.handleLogin}>
+                <div className="form-control">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Prisijungimo vardas"
+                    onChange={e => this.onInputChange("name", e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-control">
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Slaptažodis"
+                    onChange={e =>
+                      this.onInputChange("password", e.target.value)
+                    }
+                    required
+                  />
+                </div>
 
-            <button type="submit" className="form-button">
-              PRISIJUNGTI
-            </button>
-          </form>
-        </div>
-      </div>
+                <button type="submit" className="form-button">
+                  PRISIJUNGTI
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+      </React.Fragment>
     );
-    return <React.Fragment>{content}</React.Fragment>;
   }
 }
 
 const mapStateToProps = state => {
   return {
     isAuth: state.auth.isAuth,
-    loading: state.auth.loading,
-    error: state.auth.error,
-    message: state.auth.message
+    loading: state.auth.loading
   };
 };
-const mapDispatchToProps = dispatch => {
-  return {
-    login: formData => dispatch(actions.login(formData))
-  };
+const mapDispatchToProps = {
+  login
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login);
+)(withRouter(Login));

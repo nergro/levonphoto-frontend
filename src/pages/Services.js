@@ -6,39 +6,11 @@ import ServicesComponent from "../components/Services/Services";
 import Footer from "../components/Footer/Footer";
 
 class Services extends Component {
-  state = {
-    services: null,
-    loading: false,
-    error: false
-  };
-  componentDidMount() {
-    this.setState({
-      loading: true
-    });
-    axios
-      .get("/services")
-      .then(res => {
-        this.setState({
-          services: res.data.services[0],
-          loading: false
-        });
-      })
-      .catch(err => {
-        this.setState({
-          loading: false,
-          error: true
-        });
-      });
-  }
   render() {
-    // console.log(this.props.isAuth);
     return (
       <React.Fragment>
         <Header />
-        <ServicesComponent
-          services={this.state.services}
-          loading={this.state.loading}
-        />
+        <ServicesComponent />
         <Footer />
       </React.Fragment>
     );
