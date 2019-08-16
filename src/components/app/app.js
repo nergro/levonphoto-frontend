@@ -18,7 +18,7 @@ import AdminGallery from "../../pages/admin/Gallery";
 import AdminContacts from "../../pages/admin/Contacts";
 import AdminSingleAlbum from "../../pages/admin/SingleAlbum";
 import Error from "../UI/error";
-import Spinner from "../UI/Spinner/Spinner";
+import MainSpinner from "../UI/main-spinner";
 
 class App extends Component {
   componentDidMount() {
@@ -30,7 +30,7 @@ class App extends Component {
     return (
       <SimpleReactLightbox>
         {loading ? (
-          <Spinner />
+          <MainSpinner />
         ) : (
           <div className="App">
             {isAuth ? (

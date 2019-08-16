@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import { SRLWrapper } from "simple-react-lightbox";
 import { withRouter } from "react-router-dom";
 
 import Image from "../Image/Image";
-import Spinner from "../UI/Spinner/Spinner";
 import TrashIcon from "../../images/svgs/trash-icon";
 import { removeImg } from "../../store/actions/main";
 
@@ -16,37 +14,6 @@ class Featured extends Component {
     error: false,
     imagesLoading: false
   };
-
-  // componentDidMount() {
-  //   this.setState({
-  //     loading: true
-  //   });
-  //   axios
-  //     .get("/home")
-  //     .then(res => {
-  //       this.setState({
-  //         images: res.data.images,
-  //         loading: false
-  //       });
-  //     })
-  //     .catch(err => {
-  //       this.setState({
-  //         error: true,
-  //         loading: false
-  //       });
-  //     });
-  // }
-
-  // imagesLoading = () => {
-  //   this.setState({
-  //     imagesLoading: true
-  //   });
-  // };
-  // imagesLoaded = () => {
-  //   this.setState({
-  //     imagesLoading: false
-  //   });
-  // };
 
   handleImageRemoval = async imageId => {
     const { removeImg } = this.props;
